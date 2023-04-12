@@ -1,0 +1,47 @@
+---
+title: "Authentication"
+---
+
+The Bitski API uses [OAuth](https://oauth.net) to authenticate requests with a
+`Bearer` token. Any API requests that require authentication made without this
+token will fail.
+
+To authenticate you will use your Developer portal to obtain credentials which
+can then be used to generate a token. Once you have an access token, you can
+automatically sign transactions from your app’s wallet.
+
+<Note>
+  You should create a new credential for _every_ service that needs to sign on
+  your behalf.
+</Note>
+
+### Obtain an Access Token
+
+To obtain a token:
+
+1. Go to your [Developer Portal](https://developer.bitski.com).
+2. Click **Credentials**.
+3. Click **New Credential** to generate a **Client ID** and **Client Secret**.
+
+Refer to the screen shot below to navigate.
+
+![2972](/images/aa9ccb5-developer-portal-credentials.png "developer-portal-credentials.png")
+
+Developer portal credentials
+
+1. Use these credentials to request the access token. See an example in Python
+   in the following recipe:
+
+<Card title="Get an access token" icon="check" href="/recipes/get-access-token">
+  Open Recipe
+</Card>
+
+---
+
+<Warning>
+**Be careful**
+
+Your credentials can be used to cause **un-reversible** interactions with the
+blockchain. Take care to always use them securely.
+
+</Warning>

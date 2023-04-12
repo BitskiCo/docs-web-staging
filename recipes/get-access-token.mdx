@@ -1,0 +1,59 @@
+---
+title: Get an Access Token
+description: Get an access token to use with other API calls.
+---
+
+## 1. Configure your application
+
+Get a set of Backend Credentials, a `client id` and `client secret`, from your [Developer Portal](https://developer.bitski.com/).
+
+```python
+# Get a Client ID and a Client Secret from your Developer Portal at
+# developer.bitski.com.
+CLIENT_ID = ""
+CLIENT_SECRET = ""
+```
+
+## 2. Set the scopes
+
+Set the grant to `client_credentials` and the scope to `eth_sign`.
+
+```python
+def get_access_token(client_id, client_secret):
+    """Get an access token."""
+
+    response = requests.post(
+        "https://account.bitski.com/oauth2/token",
+        data={
+            "grant_type": "client_credentials",
+            "scope": ["eth_sign"],
+        },
+        auth=(client_id, client_secret),
+    )
+    print("Token granted successfully:", response.status_code == 200)
+    return response
+```
+
+## 3. Authenticate with your credentials
+
+Use HTTP Basic Authentication to send your credentials. See `auth=` from above example.
+
+```python
+auth=(client_id, client_secret)
+```
+## 4. Get your token
+
+The call should return a 200 and the access token should be in the `access_token` field in the response. The above print statement would output the following.
+
+<ResponseExample>
+
+```json Response
+{
+  "access_token": "",
+  "expires_in": 3599,
+  "scope": "eth_sign",
+  "token_type": "bearer"
+}
+```
+
+</ResponseExample>

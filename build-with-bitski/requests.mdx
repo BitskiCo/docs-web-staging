@@ -1,0 +1,40 @@
+---
+title: "Errors"
+description: "Bitski uses standard HTTP response status and error codes for communicating the
+success or failure of a request."
+---
+
+The response body may be in JSON or plaintext depending on the status code.
+
+Typically, if you receive a status code in the:
+
+- `2xx` range, it means the request succeeded.
+- `4xx` range, there was a problem with your request.
+- `5xx` range, an error occurred on the Bitski servers (very rare).
+
+**Example**
+
+`4xx` and `5xx` messages follow a standard error message response:
+
+```json JSON
+{
+  "error": {
+    "code": 401,
+    "status": "Unauthorized",
+    "request": "fcb5e92e-1b2e-4e13-9998-48021efd0627",
+    "message": "The request could not be authorized"
+  }
+}
+```
+
+**Common error codes**
+
+| status code        | status        | description                                                                                                         |
+| ------------------ | ------------- | ------------------------------------------------------------------------------------------------------------------- |
+| 200                | OK            | The request succeeded as expected.                                                                                  |
+| 201                | Created       | The request succeeded and Bitski created the new item or updated it successfully.                                   |
+| 400                | Bad Request   | The request failed. This is usually due to a misconfigured required parameter.                                      |
+| 401                | Unauthorized  | A valid API wasn't provided.                                                                                        |
+| 403                | Forbidden     | The API token doesn't have the permissions needed to perform the request.                                           |
+| 404                | Not Found     | The requested resource doesn't exist.                                                                               |
+| 500, 502, 503, 504 | Server Errors | Bitski's servers are having trouble (very rare). Review any announcements at bitski.com and report this to Support. |

@@ -1,0 +1,98 @@
+---
+title: Create an NFT
+description: Configure the NFT's metadata and mint it to a wallet address
+---
+
+## 1. Configure your application
+
+After getting your application set up in your creator portal, grab the needed:
+
+- [auth token](/build-with-bitski/get-started/authentication)
+- application id
+- contract id that the NFT will be minted from
+- token template id to use as a base for your NFTs metadata
+
+```python
+# Get an auth token using your Developer Portal credentials.
+AUTH_TOKEN = ""
+# Your application id is also in the Developer Portal.
+APP_ID = ""
+# Get your contract id from a previously created contract, or create a new one.
+CONTRACT_ID = ""
+# Get your template id from a template associated with your contract, or create
+# a new one.
+TOKEN_TEMPLATE_ID = ""
+```
+
+## 2. Set the wallet to receive the NFT
+
+This wallet address will receive the minted token.
+
+```python
+# Set the address to mint the NFT to
+WALLET = ""
+```
+
+## 3. Configure the NFT metadata
+
+Set the metadata for the NFT. You can modify this after its minted.
+
+```python
+# Configure the NFT's metadata
+TOKEN = {
+    "image": "",
+    "name": "Recipe NFT",
+    "description": "Creating an example NFT using Bitski.",
+    "tokenTemplateId": TOKEN_TEMPLATE_ID,
+    "contractId": CONTRACT_ID,
+}
+
+```
+
+## 4. Mint a NFT!
+
+Send a POST request to the API with the wallet and token metadata in the request body. You should receive a 201 status code if it worked.
+
+```python
+def mint_nft(auth_token, app_id, wallet, metadata):
+    """Mint a NFT to a wallet of your choice."""
+
+    response = requests.post(
+        f"https://api.bitski.com/v1/apps/{app_id}/tokens",
+        json={"initialOwner": wallet, "token": metadata},
+        headers={
+            "Authorization": f"Bearer {auth_token}",
+            "Content-Type": "application/json",
+        },
+    )
+    print("NFT minted successfully", response.status_code == 201)
+    return response
+```
+
+<ResponseExample>
+
+```json Response
+{
+  "token": {
+    "id": "028b5397-b17a-46a3-bcc3-3bc613d78f04",
+    "tokenTemplateId": "4aea50a7-7254-46a3-bbe2-7b54339ff722",
+    "createdAt": "2021-11-16T16:20:00.696202Z",
+    "index": "0x28b5397b17a46a3bcc33bc613d78f04",
+    "image": null,
+    "externalUrl": null,
+    "description": null,
+    "name": "Bitski Test NFTs #3/10000",
+    "backgroundColor": null,
+    "animationUrl": null,
+    "youtubeUrl": null,
+    "metadata": {
+      "edition": "3/10000"
+    },
+    "privateMetadata": {},
+    "state": "PENDING"
+  },
+  "auctions": []
+}
+```
+
+</ResponseExample>

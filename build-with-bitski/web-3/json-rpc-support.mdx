@@ -1,0 +1,72 @@
+---
+title: "JSON RPC Support"
+---
+
+With your access token and an Ethereum address, you can start sending
+transactions. You can use any Web3 client to send these transactions as we
+support all the standard Web3 JSON-RPC methods.
+
+```json
+POST /v1/web3/mainnet HTTP/2
+Host: https://api.bitski.com
+Content-Type: application/json
+Authorization: Bearer YOUR ACCESS TOKEN
+X-API-Key: YOUR CLIENT ID
+
+{
+  "id": 1
+  "jsonrpc": "2.0",
+  "method": "eth_sendTransaction",
+  "params": [{
+    "from": "0xb60e8dd61c5d32be8058bb8eb970870f07233155",
+    "to": "0xd46e8dd67c5d32be8058bb8eb970870f07244567",
+    "gas": "0x76c0",
+    "gasPrice": "0x9184e72a000",
+    "value": "0x9184e72a",
+    "data": "0x0"
+  }]
+}
+```
+
+You can also sign transactions (you will need to send them yourself via
+`eth_sendRawTransaction`) for any EVM chain by replacing `/web3/mainnet` with
+`/web3/chains/{chain_id}`
+
+```json
+POST /v1/web3/chains/13337 HTTP/2
+Host: https://api.bitski.com
+Content-Type: application/json
+Authorization: Bearer YOUR ACCESS TOKEN
+X-API-Key: YOUR CLIENT ID
+
+{
+  "id": 1
+  "jsonrpc": "2.0",
+  "method": "eth_signTransaction",
+  "params": [{
+    "from": "0xb60e8dd61c5d32be8058bb8eb970870f07233155",
+    "to": "0xd46e8dd67c5d32be8058bb8eb970870f07244567",
+    "gas": "0x76c0",
+    "gasPrice": "0x9184e72a000",
+    "value": "0x9184e72a",
+    "data": "0x0"
+  }]
+}
+```
+
+Bitski will sign a transaction if:
+
+- Your token is valid
+- This account is funded, and
+- The transaction is valid.
+
+Transactions you submit via this API must include all fields with the exception
+of nonce.
+
+<Note>
+**Need more RPC?**
+
+For a list of all the supported methods, see
+[Ethereum's JSON-RPC spec](https://ethereum.org/en/developers/docs/apis/json-rpc/).
+
+</Note>

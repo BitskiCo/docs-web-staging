@@ -1,0 +1,54 @@
+---
+title: "Get all tokens"
+description: "Get a list of all the tokens for an app id."
+api: "GET https://api.bitski.com/v1/apps/{appId}/tokens"
+---
+
+### Path Parameters
+
+<ParamField path="appId" type="string" required />
+
+### Body Paramters
+
+<ParamField query="privateMetadata" type="string" required>
+  A JSON object, url encoded, that contains the keys and values you want to
+  query for. Can be an empty JSON.
+</ParamField>
+
+### Response
+
+<ParamField body="tokens" type="array of objects" required>
+
+    <Expandable title ="show objects" >
+
+        <ResponseField name="id" type="string" required/>
+        <ResponseField name="tokenTemplateId" type="string" />
+        <ResponseField name="createdAt" type="date-time" required/>
+        <ResponseField name="index" type="string" />
+        <ResponseField name="image" type="uri" />
+        <ResponseField name="external_url" type="uri" />
+        <ResponseField name="description" type="string" />
+        <ResponseField name="name" type="string" />
+        <ResponseField name="backgroundColor" type="string" />
+        <ResponseField name="animationUrl" type="uri" />
+        <ResponseField name="youtubeUrl" type="uri" />
+        <ResponseField name="metadata" type="object" />
+        <ResponseField name="privateMetadata" type="object" />
+        <ResponseField name="state" type="string" />
+
+    </Expandable>
+
+</ParamField>
+
+<ParamField body= "error" type="object" required >
+  
+    <Expandable title ="show objects" >
+
+        <ResponseField name="status" type="string" />
+        <ResponseField name="code" type="string" />
+        <ResponseField name="request" type="string" />
+        <ResponseField name="message" type="string" />
+
+    </Expandable>
+
+</ParamField>

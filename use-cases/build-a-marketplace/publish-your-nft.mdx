@@ -1,0 +1,108 @@
+---
+title: "Step 5 Publish Your NFT"
+---
+
+<Warning>
+  Make sure you completed the steps in the [Get Started](/build-with-bitski/introduction)
+  section before publishing your NFT.
+</Warning>
+
+#### How do I publish an NFT on Bitski?
+
+To publish or schedule your NFT on Bitski takes just four simple steps:
+
+1. Log in via [creator.bitski.com](https://creator.bitski.com)
+2. Click "+ New" on the Creator Portal. Bitski displays a menu.
+3. Fill out the listing with:
+   - Title
+   - Description
+   - Properties (Key + Value) for metadata
+   - Add Primary Media
+   - Unlockable Content (Optional)
+   - Include Snap Lens (Optional)
+   - Include an Instagram Filter (Optional)
+   - Include Any Additional Files (Optional)
+   - Sales Details
+4. Make sure under "Sales Details" that you specify the correct date & time you
+   want:
+   - For products to go live immediately, hit “Publish”
+   - For products to go live at a future date and time, adjust the launch time
+     then hit “Schedule”
+
+For a visual representation, the top of the menu will look something like this:
+
+<iframe className="w-full aspect-video" src="https://www.youtube.com/embed/Gy5Em2gGIyY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<br />
+
+<Check>
+If you want to use our API:
+
+Here's a starting [guide](/reference/get-started-apis)!
+
+</Check>
+
+---
+
+## Sales Types
+
+### Auctions
+
+1. Description: Auctions are 1-1 NFTs. A time limit is set, and the winner of
+   the NFT goes to the highest bidder.
+2. Additional Details:
+   - Sniper Safe: There is a 5 minute extension on bids if they're made within
+     the last 5 minutes.
+   - This means there is no winning bidder unless no one bids against them for
+     the last 5 minutes. If they do, the timer adds an additional 5 minutes.
+     This helps to _safe guard against last minute snipers who try to place a
+     small incremental bid right before the timer runs out._
+
+- Minimum Bids: We added another layer to make any live auction even more sniper
+  safe. Check out the chart below for more details!
+
+| Starting Bid | Minimum Bid Increments |
+| ------------ | ---------------------- |
+| $100         | $5                     |
+| $101 - $250  | $10                    |
+| $251 - $500  | $25                    |
+| $501 - $1000 | $50                    |
+| $1001 - $10k | $100                   |
+| $10k +       | $250                   |
+
+- Suggested Pricing: Since auctions offer NFTs that are the most rare, this tier
+  usually merits the highest level of pricing relative to your consumers'
+  household income levels
+
+### Limited Editions (aka fixed price listings)
+
+1. Description: Limited editions are based off of a fixed quantity of available
+   NFTs. The sale will run for an infinite amount of time until all quantities
+   are sold out (i.e. 20 editions only)
+2. Suggested Pricing: Generally limited editions should not be priced too high.
+   While there is scarcity due to the limited quantity, these NFTs are not
+   one-of-ones. We recommend testing out lower pricing before moving forward
+   with higher-tier pricing for future sales, as it's better to sell-out than
+   not. There is a minimum sale price of $0.50 USD for Limited edition sales.
+   Anything lower should give an error when the product is created within the
+   CMS.
+3. Please note that you can change the price of an NFT that has not minted yet,
+   but if 1 or more of your NFT has sold, then the price should not be able to
+   be updated.
+
+### Open Editions
+
+<Note>
+Reach out to us!
+
+Open Editions are not offered widely yet. Please reach out to support@bitski.com
+or join our [Discord](https://discord.gg/bitski) to contact members of our team
+
+</Note>
+
+<Info>
+If you're curious about other ways to use Bitski:
+
+Check out our Pricing Page [here](https://www.bitski.com/pricing/).
+
+</Info>

@@ -1,65 +1,202 @@
 {
-  "$schema": "https://mintlify.com/schema.json",
-  "name": "Documentation Starter Kit",
-  "logo": {
-    "dark": "/logo/dark.png",
-    "light": "/logo/light.png"
-  },
-  "favicon": "/favicon.png",
+  "name": "Bitski",
+  "logo": "/logo.svg",
+  "favicon": "/favicon.svg",
   "colors": {
-    "primary": "#0069ED",
-    "light": "#4D9CFF",
-    "dark": "#0050B4"
+    "primary": "#FF245A",
+    "light": "#FF3567",
+    "dark": "#FF245A",
+    "ultraLight": "#FACFD8",
+    "ultraDark": "#98062A",
+    "background": {
+      "dark": "#0B0B0B"
+    },
+    "anchors": {
+      "from": "#E00037",
+      "to": "#FF245A"
+    }
+  },
+  "topbarCtaButton": {
+    "name": "Login",
+    "url": "https://developer.bitski.com"
   },
   "topbarLinks": [
     {
-      "name": "Documentation",
-      "url": "https://mintlify.com/docs"
+      "name": "Explore Bitski",
+      "url": "https://www.bitski.com"
     }
   ],
-  "topbarCtaButton": {
-    "name": "Get Started",
-    "url": "https://github.com/mintlify/starter"
-  },
   "anchors": [
     {
-      "name": "API Reference",
-      "icon": "rectangle-terminal",
-      "url": "api-reference"
+      "name": "Wallet as a Service (WaaS)",
+      "icon": "square-terminal",
+      "url": "wallet-as-a-service"
     },
     {
-      "name": "Changelog",
-      "icon": "list",
-      "url": "https://mintlify.com"
+      "name": "Twitter",
+      "icon": "twitter",
+      "url": "https://twitter.com/bitski"
     },
     {
-      "name": "Community",
+      "name": "Discord",
       "icon": "discord",
-      "url": "https://mintlify.com/community"
+      "url": "https://discord.com/invite/bitski"
     }
   ],
   "navigation": [
     {
       "group": "Home",
-      "pages": ["introduction", "features"]
+      "pages": ["explore-products", "bitski/what-is-a-bitski-vault"]
     },
     {
-      "group": "API Documentation",
-      "pages": ["api-reference/authentication"]
-    },
-    {
-      "group": "Endpoint Examples",
+      "group": "Build With Bitski",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/update",
-        "api-reference/endpoint/delete"
+        "build-with-bitski/introduction",
+        {
+          "group": "Setup as a Developer",
+          "pages": [
+            "build-with-bitski/get-started/authentication",
+            "build-with-bitski/get-started/configure-app-settings",
+            "build-with-bitski/get-started/connect-user-wallets"
+          ]
+        },
+        "build-with-bitski/requests",
+        "build-with-bitski/pagination",
+        {
+          "group": "Web3",
+          "pages": [
+            "build-with-bitski/web-3/web3-get-started",
+            "build-with-bitski/web-3/json-rpc-support",
+            "build-with-bitski/web-3/using-operators",
+            "build-with-bitski/web-3/transaction-operator"
+          ]
+        },
+        {
+          "group": "SDK",
+          "pages": [
+            "build-with-bitski/sdk/sdk-overview",
+            "build-with-bitski/sdk/verify-a-users-wallet"
+          ]
+        },
+        {
+          "group": "Recipes",
+          "pages": [
+            "recipes/get-access-token",
+            "recipes/create-nft-contract",
+            "recipes/create-token-template",
+            "recipes/deploy-nft-contract",
+            "recipes/developers-first-steps-on-bitski"
+          ]
+        },
+        "build-with-bitski/faq"
+      ]
+    },
+    {
+      "group": "Use Cases",
+      "pages": [
+        {
+          "group": "Build a Marketplace",
+          "pages": [
+            {
+              "group": "Marketplace APIs",
+              "pages": [
+                "use-cases/build-a-marketplace/marketplace-apis/create-a-contract",
+                "use-cases/build-a-marketplace/marketplace-apis/get-a-contract",
+                "use-cases/build-a-marketplace/marketplace-apis/update-a-contract",
+                "use-cases/build-a-marketplace/marketplace-apis/get-all-contracts",
+                "use-cases/build-a-marketplace/marketplace-apis/get-contracts-templates",
+                "use-cases/build-a-marketplace/marketplace-apis/create-a-token",
+                "use-cases/build-a-marketplace/marketplace-apis/create-token-template",
+                "use-cases/build-a-marketplace/marketplace-apis/get-token-template",
+                "use-cases/build-a-marketplace/marketplace-apis/update-token-template",
+                "use-cases/build-a-marketplace/marketplace-apis/get-all-products",
+                "use-cases/build-a-marketplace/marketplace-apis/get-a-single-product"
+              ]
+            },
+            "use-cases/build-a-marketplace/get-started",
+            "use-cases/build-a-marketplace/billing-payouts",
+            "use-cases/build-a-marketplace/your-collections",
+            "use-cases/build-a-marketplace/launching-your-nft",
+            "use-cases/build-a-marketplace/publish-your-nft"
+          ]
+        },
+        {
+          "group": "Droplinks",
+          "pages": [
+            "use-cases/droplinks/droplinks",
+            "use-cases/droplinks/create-a-custom-drop-page"
+          ]
+        },
+        {
+          "group": "Custom Wallets",
+          "pages": [
+            "use-cases/custom-wallets/wallet-overview",
+            "use-cases/custom-wallets/enterprise-wallet",
+            "use-cases/custom-wallets/whitelabel-wallet"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Wallet as a Service (WaaS)",
+      "pages": [
+        "wallet-as-a-service/overview",
+        {
+          "group": "Wallet Experience APIs",
+          "pages": [
+            {
+              "group": "Activity API",
+              "pages": [
+                "wallet-as-a-service/wallet-experience-apis/activity-api/activity-api"
+              ]
+            },
+            {
+              "group": "Balances API",
+              "pages": [
+                "wallet-as-a-service/wallet-experience-apis/balances-api/get-balances"
+              ]
+            },
+            {
+              "group": "Notifications API",
+              "pages": [
+                "wallet-as-a-service/wallet-experience-apis/notifications-api/notifications-api"
+              ]
+            },
+            {
+              "group": "Portfolio API",
+              "pages": [
+                "wallet-as-a-service/wallet-experience-apis/portfolio-api/portfolio-api"
+              ]
+            },
+            {
+              "group": "Signing API",
+              "pages": [
+                "wallet-as-a-service/wallet-experience-apis/signing-api/signing-api"
+              ]
+            },
+            {
+              "group": "Token Details API",
+              "pages": [
+                "wallet-as-a-service/wallet-experience-apis/token-details-api/get-contract-metadata",
+                "wallet-as-a-service/wallet-experience-apis/token-details-api/get-metadata",
+                "wallet-as-a-service/wallet-experience-apis/token-details-api/get-owners",
+                "wallet-as-a-service/wallet-experience-apis/token-details-api/get-token-metadata",
+                "wallet-as-a-service/wallet-experience-apis/token-details-api/update-metadata"
+              ]
+            },
+              {
+              "group": "User API",
+              "pages": [
+                "wallet-as-a-service/wallet-experience-apis/user-api/get-a-public-profile"
+              ]
+            }
+          ]
+        }
       ]
     }
   ],
   "footerSocials": {
-    "twitter": "https://twitter.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://www.linkedin.com/company/mintsearch"
+    "twitter": "https://twitter.com/bitski",
+    "discord": "https://discord.com/invite/bitski"
   }
 }

@@ -1,0 +1,78 @@
+---
+title: "Update a token template"
+description: "Update a token template by its template id."
+api:
+  "PUT https://api.bitski.com/v1/apps/{appId}/token-templates/{tokenTemplateId}"
+---
+
+## Path Parameters
+
+<ParamField path="appId" type="string" required />
+
+<ParamField path="tokenTemplateId" type="string" required />
+
+### Body Paramters
+
+<ParamField query="tokenTemplate" type="object" required>
+  Token template data
+</ParamField>
+
+<ParamField query="auction" type="object">
+  New Auction
+</ParamField>
+
+### Response
+
+<ParamField body="tokenTemplate" type="array of objects" required>
+
+    <Expandable title ="show objects" >
+
+        <ResponseField name="id" type="string" />
+        <ResponseField name="contactId" type="string" />
+        <ResponseField name="image" type="string" />
+        <ResponseField name="description" type="string" />
+        <ResponseField name="name" type="string" />
+        <ResponseField name="animationUrl" type="string" />
+        <ResponseField name="defaultMetadata" type="object" />
+        <ResponseField name="gatedContent" type="array of objects" required/>
+        <ResponseField name="kind" type="string" required/>
+        <ResponseField name="url" type="uri" />
+        <ResponseField name="filename" type="string" />
+        <ResponseField name="totalTokens" type="integer" />
+        <ResponseField name="maxTokens" type="integer" />
+        <ResponseField name="prices" type="array of objects" />
+        <ResponseField name="id" type="" />
+        <ResponseField name="currency" type="string" />
+        <ResponseField name="price" type="string" />
+        <ResponseField name="published" type="boolean" />
+        <ResponseField name="liveAt" type="date-time" />
+        <ResponseField name="salesEndAt" type="date-time" />
+        <ResponseField name="payouts" type="object" />
+        <ResponseField name= "delayMinting" type="boolean" />
+
+        <ResponseField name="auctions" type="array of objects" required>
+
+            <Expandable title ="show objects" >
+
+             <ResponseField name= "id" type="string" />
+
+            </Expandable>
+
+        </ResponseField>
+
+    </Expandable>
+
+</ParamField>
+
+<ParamField body= "error" type="object" required >
+  
+    <Expandable title ="show objects" >
+
+        <ResponseField name="status" type="string" />
+        <ResponseField name="code" type="string" />
+        <ResponseField name="request" type="string" />
+        <ResponseField name="message" type="string" />
+
+    </Expandable>
+
+</ParamField>

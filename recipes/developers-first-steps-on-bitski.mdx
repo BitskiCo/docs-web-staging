@@ -1,0 +1,304 @@
+---
+title: "Deploy a smart contract and mint an NFT"
+---
+
+If you just want to mint an NFT, and sell it under the Bitski shared or
+individual contract on the Bitski Marketplace, head over to the
+[Creator Portal](https://creator.bitski.com). If you're creating your own
+NFT-focused dApp, using the APIs, you're in the right place. This guide works in
+conjunction with the recipes available on the Bitski docs site. A link to each
+recipe can be found in the corresponding section. In writing this guide, Python
+3.10.2 was used. Verify that you have the `requests` library installed for
+Python 3.10 before getting started. If you’re unsure, run the following shell
+command:
+
+```bash Shell
+pip3 install requests
+```
+
+<Warning>
+  The APIs used in this guide are restricted, and need elevated access
+  credentials. Send an e-mail to support@bitski.com containing your app ID and
+  credentials client ID, or reach out in the #developers channel of the [Bitski
+  Discord server](https://discord.gg/ZjKur6tTDC) if you'd like to use them.
+</Warning>
+
+Each section in this guide (beginning with “Getting an access token”) is
+performed as an API request. Upon success, a response is returned that contains
+information necessary for the next step. There are a few of these pieces of
+information that you’ll need to keep track of throughout this guide (and working
+with the blockchain in general). They are:
+
+| Variable          | Description                                                                                                              | Source                                                                                                  |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------- |
+| app ID            | Your application's ID                                                                                                    | Found (labeled as “Client ID”) in the Overview section of your app's Info page in the Developer Portal. |
+| auth token        | Grants access to the Bitski APIs. Expires after about 6 hours.                                                           | Contained in a response to a successful API request.                                                    |
+| client ID         | Your client ID, used for obtaining an auth token.                                                                        | Contained in the downloaded credentials JSON file.                                                      |
+| client secret     | Your client secret, used for obtaining an auth token.                                                                    | Contained in the downloaded credentials JSON file.                                                      |
+| contract ID       | The ID of the contract used to mint your tokens.                                                                         | Contained in a response to a successful API request.                                                    |
+| token template ID | The ID of the token template used to mint your tokens. Token templates are also called “products” in the Creator Portal. | Contained in a response to a successful API request.                                                    |
+
+If you lose track of your token template ID, you can go to its page in the
+[Creator Portal](https://creator.bitski.com) and look at the URL. It contains
+your app and token template IDs in the following format:
+
+```
+https://creator.bitski.com/app/[APP ID]/products/[TOKEN TEMPLATE ID]/edit
+```
+
+### API Request Response Codes
+
+Whether or not your API request is successful, the response will carry a code. A
+successful request response carries a code beginning with 2 (200 or 201). If
+using the `requests` library with Python, the output from `json.response()` will
+contain additional information.
+
+Here are some of the error codes you may encounter, what they mean, and how you
+can resolve them.
+
+Response codes 401 and 403 represent an authentication error. Early in the
+process, this likely means that your app ID and client ID have not yet been
+authenticated. If you're seeing either of these when attempting to deploy a
+contract or mint a token, make sure that you have billing set up in your
+account.
+
+Any other response code that starts with a 4 will likely mean an incorrect
+request was sent. Common scenarios include forgetting or misspelling a query
+parameter, which will result in a 404.
+
+Response codes beginning with a 5 represent a server error. In these instances,
+check with support either via support@bitski.com or on the Bitski Discord
+server.
+
+If you attempt to mint a token and are told that something has gone wrong, make
+sure that the contract under which you're attempting to mint is on the Ethereum
+mainnet. Currently, contracts on Rinkeby cannot mint tokens (though you can
+begin the process of token template creation via script).
+
+---
+
+### Creating your app
+
+1. Sign into the [Developer Portal](https://developer.bitski.com), and click the
+   New App button in the upper right corner.
+   ![168](/images/e172a85-image11.png)
+1. Name your app. Optionally, enter the URL for your app’s homepage, and assign
+   it to an organization (if applicable). Click Create app.
+   ![516](/images/d5d3dd0-image9.png)
+1. Click the Bitski icon in the upper left to return to your list of apps.
+   ![189](/images/0fc6ce2-image3.png)
+1. Click on your app’s name. In the Overview section, you’ll find your app’s ID
+   (labeled “Client ID”). Copy this, as you’ll need it later in this guide.
+   ![1113](/images/e81a9a8-image2.png)
+
+### Credentials
+
+You’ll need backend credentials to get an auth token to sign transactions.
+
+1. Still on your app’s page in the Developer Portal, click Credentials in the
+   left column.
+   ![222](/images/90db8a9-image6.png)
+1. Click New Credential in the upper right.
+   ![1108](/images/a3192b9-image8.png)
+1. A popup appears with your newly created credentials. At the bottom, click
+   Download Credentials to receive a JSON file containing your Client ID and
+   Secret. This popup is the only chance you’ll have to access your client
+   secret. _It’s important that you download the file or record your client
+   details before closing the window_. If you miss it, you can generate a new
+   secret.
+   ![460](/images/dd89ec1-image13.png)
+1. You’re ready to get authenticated, so that you can request an access token.
+
+### Authentication
+
+Also known as an auth token (not to be confused with a Non-Fungible Token), this
+grants access to Bitski’s APIs. Each lasts for about 6 hours before a new one
+needs to be generated due to security requirements.
+
+### Getting an access token
+
+1. Launch your Python IDE and create a new script.
+2. Copy the code from the access token recipe below into your Python IDE.
+
+<Card title="Get an Access Token" icon="key" href="/recipes/get-access-token">
+  Open Recipe
+</Card>
+
+1. Copy the client ID and secret from your credentials JSON file to the
+   corresponding variables CLIENT_ID (line 5 in the recipe code) and
+   CLIENT_SECRET (line 6) in your Python script.
+
+In the JSON file:
+
+```json credentials.json
+`{ "client": { "id": "[my client id]", "secret": "[my client secret]" } } `
+```
+
+In your Python script:
+
+```py Python
+`CLIENT_ID = "[my client id]" CLIENT_SECRET = "[my client secret]" `
+```
+
+1. Save and run your script. If successful, you should get a response like the
+   following. The token has been removed here, but it’s a long string consisting
+   of lowercase and uppercase letters, numbers, underscores and periods.
+
+```
+Token granted successfully: True access token: [removed]
+```
+
+1. Copy this token, as you’ll need it in the next step.
+
+### Set up your contract
+
+### Configure your contract
+
+Once you have your auth token and app ID, you're ready to create your contract
+to mint your NFTs. It’s important to note that creating a contract does not
+automatically deploy it. While you’re still learning, or when testing something
+new, it is recommended to use the Rinkeby testnet – which does not incur any
+charges, but does not allow actual minting of NFTs, and is set by default in the
+recipe code – rather than the live mainnet.
+
+1. In your Python IDE, create a new script.
+2. Open the recipe below and copy the code to your IDE.
+
+<Card title="Create an NFT contract" icon="file-signature" href="/recipes/create-nft-contract">
+  Open Recipe
+</Card>
+
+1. As before, populate the variables with your copied data.
+
+- **AUTH_TOKEN** (line 4) - your auth token from the previous section. If it’s
+  been more than about 6 hours since you generated it, you’ll need to generate a
+  new one before continuing.
+- **APP_ID** (line 6) - your app ID. See the Overview section of your app’s Info
+  page in the Developer Portal if you did not copy this earlier.
+
+1. On line 11 of the recipe code, the contract is set to use the Rinkeby
+   testnet. If you’re creating an actual contract, you’ll want to change rinkeby
+   to mainnet.
+2. Save and run your script.
+3. Similar to when the auth token was generated, your contract ID will be shown
+   upon success.
+
+```
+contract id is: 12345678-da5b-494c-8719-bdba105e3612
+```
+
+### Deploy your contract
+
+Before you can mint an NFT, you'll need to deploy your contract. To do this,
+you'll send a PATCH request to same endpoint as the previous step when you
+created the contract. Even if creating a free/test contract, you’ll need to have
+billing set up in order for the server to find your “store” (your online
+presence that grants you the ability to deploy contracts).
+
+<Warning>
+Deployment costs money
+
+If you deploy a contract to mainnet we charge $250 to cover the gas fees
+required to deploy it.
+
+</Warning>
+
+1. Open the recipe below, and copy the code into a new script in your IDE.
+
+<Card title="Deploy an NFT contract" icon="rocket" href="/recipes/deploy-nft-contract">
+  Open Recipe
+</Card>
+
+1. Populate the variable data with your auth token, app ID, and contract ID.
+2. Save and run your script.
+
+---
+
+### Create your NFT
+
+### Configure your NFT
+
+A token template, also known as a NFT, is used to mint tokens. As with the other
+steps in this guide, you need an auth token to create a token template.
+Additionally, you need to provide the following information:
+
+- **Application ID** This is your application under which your contract and
+  products are created.
+- **Contract ID** Also known as a collection, a contract is what mints your
+  NFTs. You can use an existing contract, or create a new one.
+- **Max Tokens** The number of tokens to be minted.
+- **Product Name** The name of your token. When minting more than one token, all
+  tokens share the name. If you'd like to mint individual single tokens, with
+  unique names, you'll need to create multiple token templates.
+
+1. Open the recipe below, and copy the code into a new script in your IDE.
+
+<Card title="Create a Token Template" icon="files" href="/recipes/create-token-template">
+  Open Recipe
+</Card>
+
+1. Populate the variable data with your auth token, app ID, and contract ID.
+2. Save and run your script.
+3. Note the token template ID.
+
+```
+token template id: 4aea50a7-7254-46a3-bbe2-7b54339ff722
+```
+
+### Preparing to mint your NFTs
+
+After you've deployed your contract and created your token template, you're
+ready to finish preparing your NFT. In the
+[Creator Portal](https://creator.bitski.com), token templates are called
+products, and contracts are called collections. Before you can mint, you need to
+have a title (you created this as part of the token template script, earlier), a
+description, and at least an image. You also need to select whether your NFT(s)
+will be sold for a fixed price or at auction with a specified minimum bid. At
+the time of this writing, it isn’t possible to fully prepare or mint NFTs on a
+test contract.
+
+1. Log into the [Creator Portal](https://creator.bitski.com). You should see a
+   page similar to the one below.
+
+Token templates are listed as Products, and Contracts under which they’re minted
+are listed as Collections.
+
+![1348](/images/37d08a4-image7.png "image7.png")
+
+1. Click on the product you made earlier to enter the Edit Product page.
+2. Fill out both fields of the Product Information and add your primary image.
+   ![1347](/images/402572c-image5.png "image5.png")
+3. Upload any optional additional data.
+4. In Sales Details, select your sale type and set the details accordingly.
+   ![1035](/images/2074846-image4.png "image4.png")
+5. Click “Update” to save your changes.
+
+### Minting your NFT
+
+You’re finally ready to mint! This section assumes you want to mint directly to
+a wallet, be it your own or a buyer’s. If you just want to make the NFTs
+available for sale or auction, you need only click Schedule under Sales Details.
+
+1. Copy and paste the code from the recipe below into a new script.
+
+<Card title="Create an NFT" icon="hexagon-vertical-nft" href="/recipes/create-nft">
+  Open Recipe
+</Card>
+
+1. As before, populate your variable data.
+2. Save and run your script.
+3. In addition to the response in the script, you can also check the Inventory
+   column for this particular product in the Creator Portal. The first number is
+   the count of minted tokens, and the second is the maximum number of this
+   product to be minted.
+
+### Next Steps
+
+Congratulations! If you've worked – or even just read – through this entire
+guide, you are now familiar with the process of minting NFTs with Bitski. Though
+the steps were in separate scripts for the purposes of this tutorial, in
+production you would likely want everything in one or two scripts. A good
+separation might be one script to get you from auth token to contract
+deployment, and another script for minting after your NFT is fully configured in
+the Creator Portal. As you grow more familiar with Bitski, you may wish to build
+GUI-based tools.

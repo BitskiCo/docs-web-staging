@@ -1,0 +1,52 @@
+---
+title: "Sending Transactions Overview"
+---
+
+<Warning>
+  One of the main differences with using Bitski's wallet in your app over
+  Metamask or other wallet providers is in the Send Transaction flow.
+</Warning>
+
+## How it works
+
+When you submit a Transaction via `sendTransaction(...)`, our SDK picks up the
+transaction and shows an approval dialog to the user. (Note that we host this
+approval dialog on our Bitski website for security.) The user can then review
+the details of the transaction and either approve it or reject it.
+
+On the web, we show the dialog as a modal over your web app. On iOS, this
+happens in a Safari modal that displays over the native app.
+
+If the user approves the transaction, Bitski will sign the transaction, submit
+it to the network, and return the transaction hash just like any other wallet.
+If the user declines the transaction, we will return an error.
+
+---
+
+## Optional fields
+
+Bitski does not require you to submit all fields of a transaction in order to
+process a transaction. The following fields are optional:
+
+| Name     | Default                                                                  |
+| -------- | ------------------------------------------------------------------------ |
+| nonce    | Bitski will calculate the next nonce for you.                            |
+| gasPrice | Bitski will calculate a gas price for you based on the current averages. |
+
+---
+
+## Gas
+
+We believe that most of you don't want to have to think about gas and gas
+prices. They are confusing terms and concepts. Instead, in our transaction
+approval screen, we display gas as a transaction fee. Which is essentially what
+gas is. (Note that we don't currently offer the ability to customize it.) This
+creates an experience that is more familiar to most people and makes your app
+more appealing.
+
+<Info>
+Check out the JSON RPC Support page
+
+[JSON RPC Support](/reference/json-rpc-support)
+
+</Info>

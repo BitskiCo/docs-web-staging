@@ -1,0 +1,57 @@
+---
+title: "Overview"
+description: "Bitski Blockchain APIs provide a managed solution for interacting with the
+Ethereum blockchain."
+---
+
+All you need is an [auth token](/reference/authentication) to use these APIs and
+be able to create contracts and mint NFTs.
+
+There are three main areas of Blockchain APIs:
+
+- Contracts
+- Token Templates
+- Tokens
+
+## [Contracts](/reference/contracts)
+
+Here you can create, update, and view contracts associated with your account.
+Bitski assigns each contract a UUID which you will need to use with other
+endpoints to create templates and NFTs.
+
+<Card title="Get an NFT Contract" icon="file-signature" href="/recipes/create-nft-contract">
+  Open Recipe
+</Card>
+
+## [Token Templates](/reference/token-templates)
+
+Token templates are assigned to a contract by the contract's UUID. Each template
+can be used to mint **one or more** NFTs. Bitski uses ERC 1155 contracts, so you
+can have multiple templates associated with a contract, and multiple NFTs per
+template. There is no limit to the number of templates or NFTs you can create
+per contract.
+
+A template holds default metadata for common attributes that are applied to each
+NFT minted from the template. Things such as the name, description, and image
+url can be set.
+
+Once you create a template Bitski assigns it a UUID, which you will need to use
+in order to mint an NFT or update the metadata.
+
+<Card title="Get a Token Template" icon="files" href="/recipes/create-nft-contract">
+  Open Recipe
+</Card>
+
+## [Tokens](/reference/tokens)
+
+You can view your tokens and their metadata, as well as mint new tokens, with
+these APIs. You'll need a template id and a contract id, as described
+previously, to use these.
+
+<Card title="Get an NFT" icon="hexagon-vertical-nft" href="/recipes/create-nft-contract">
+  Open Recipe
+</Card>
+
+<br />
+
+<Info>Where's the code? We have runnable examples in our [recipe](/recipes/get-access-token) section.</Info>

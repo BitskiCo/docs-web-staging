@@ -1,0 +1,97 @@
+---
+title: Create a Token Template
+description: Create a template that will be applied to all NFTs in a collection.
+---
+
+## 1. Configure your application
+
+Set your [auth token](/build-with-bitski/get-started/authentication), your application id, and your contract ID.
+
+```python
+# Get an auth token using your Developer Portal credentials.
+AUTH_TOKEN = ""
+# Your application id is also in the Developer Portal.
+APP_ID = ""
+# Get your contract id from a previously created contract, or create a new one.
+CONTRACT_ID = ""
+```
+
+## 2. Configure your token template
+
+A limit to the total tokens that can be created from this template.
+
+Set the base name that will be assigned to each token.
+
+Set the id of the contract that new tokens will be minted from.
+
+<Info>Configure a token template which will be used a base for your NFTs. See [create token template](/use-cases/build-a-marketplace/marketplace-apis/create-token-template) for all available options</Info>
+
+```python
+TOKEN_TEMPLATE = {
+    "tokenTemplate": {
+        "maxTokens": 10000,
+        "name": "Bitski Test NFTs",
+        "contractId": CONTRACT_ID,
+        "published": False,
+    },
+}
+```
+
+## 3. Create the token template
+
+Send a POST request to the API with the authentication token and token template payload in the request body. You should receive a 201 status code if it worked.
+
+```python
+def create_token_template(auth_token, app_id, template):
+    """Create a token template to set common attributes that will apply to all
+    NFTs minted from the contract that use the template id from the API response."""
+
+    response = requests.post(
+        f"https://api.bitski.com/v1/apps/{app_id}/token-templates",
+        json=template,
+        headers={
+            "Authorization": f"Bearer {auth_token}",
+            "Content-Type": "application/json",
+        },
+    )
+    print("Created template successfully", response.status_code == 201)
+    return response
+```
+
+## 4. Remember your token template id
+
+After creating the template, you will need to use the returned id to mint a NFT. It will be returned in the `tokenTemplate.id` field of the JSON response.
+
+```python
+response = create_token_template(AUTH_TOKEN, APP_ID, TOKEN_TEMPLATE)
+    template_id = response.json()["tokenTemplate"]["id"]
+    print(f"token template id: {template_id}")
+```
+
+<ResponseExample>
+
+```json Response
+{
+  "tokenTemplate": {
+    "id": "4aea50a7-7254-46a3-bbe2-7b54339ff722",
+    "contractId": "dbaa1d49-8930-4b72-a93f-92af468431f2",
+    "image": null,
+    "description": null,
+    "name": "Bitski Recipe NFTs",
+    "animationUrl": null,
+    "defaultMetadata": null,
+    "gatedContent": null,
+    "totalTokens": 0,
+    "maxTokens": 10000,
+    "prices": [],
+    "published": false,
+    "liveAt": null,
+    "salesEndAt": null,
+    "payouts": null,
+    "delayMinting": false
+  },
+  "auctions": []
+}
+```
+
+</ResponseExample>

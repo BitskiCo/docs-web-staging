@@ -1,0 +1,90 @@
+---
+title: "Get all products"
+description: "Get a list of all the live products."
+api: "GET https://api.bitski.com/v1/products"
+---
+
+### Query Paramters
+
+<ParamField query="baseUrl" type="string">
+  URL for a Bitski creator, e.g. https://www.bitski.com/@username, to filter
+  products by.
+</ParamField>
+
+<ParamField query="limit" type="integer">
+  Limit the number of products returned.
+</ParamField>
+
+<ParamField query="offset" type="integer" >
+Product to start from when paginating.
+
+</ParamField>
+
+<ParamField query="saleType" type="string">
+  Which type of product listing to return.
+</ParamField>
+
+<ParamField query="sold" type="boolean">
+  Filter by if the product is sold (true) or not (false).
+</ParamField>
+
+### Response
+
+<ParamField body="products" type="array of objects" required>
+
+    <Expandable title ="show objects" >
+
+        <ResponseField name="id" type="string" required/>
+        <ResponseField name="network" type="string" required/>
+        <ResponseField name="tokenContractAddress" type="string" required/>
+        <ResponseField name="tokenMetadata" type="" required/>
+        <ResponseField name="gatedContenct" type="" required/>
+        <ResponseField name="totalAvailable" type="" required/>
+        <ResponseField name="totalSold" type="" required/>
+
+        <ResponseField name="prices" type="array of objects" required>
+
+            <Expandable title ="show objects" >
+
+                <ResponseField name="id" type="string" />
+                <ResponseField name="currency" type="string" />
+                <ResponseField name="price" type="string" />
+
+            </Expandable>
+
+        </ResponseField>
+
+        <ResponseField name="auctions" type="array of objects" required>
+
+            <Expandable title ="show objects" >
+
+                <ResponseField name="id" type="string" />
+
+            </Expandable>
+
+        </ResponseField>
+
+        <ResponseField name="createdAt" type="date-time" required/>
+        <ResponseField name="liveAt" type="date-time" required/>
+        <ResponseField name="previewAt" type="date-time" required/>
+        <ResponseField name="salesEndAt" type="date-time" required/>
+        <ResponseField name="username" type="string" required/>
+        <ResponseField name="purchaseLink" type="string" required/>
+
+        <ResponseField name="saleType" type="string" required>
+        `EDITION` `LIMITED_EDITION` `OPEN_EDITION` `AUCTION` `OFF_CHAIN_AUCTION` `ON_CHAIN_AUCTION`
+        </ResponseField>
+
+    </Expandable>
+
+</ParamField>
+
+<ParamField body= "error" type="object" required >
+  
+    <Expandable title ="show objects" >
+
+        <ResponseField name="message" type="string" />
+
+    </Expandable>
+
+</ParamField>

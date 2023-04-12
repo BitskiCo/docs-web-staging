@@ -1,0 +1,26 @@
+---
+title: "Pagination"
+description: "Pagination helps limit the number of results from an API request."
+---
+
+This improves performance, reduces network traffic, and markedly improves user
+response to your marketplace. Our APIs support pagination with the **limit** and
+**offset** parameters where applicable.
+
+## Parameters
+
+### limit
+
+A restriction on the number of objects to be returned, usually between 1 and
+50\. Some of our APIs have a different upper bound, which can be found in their
+route specification.
+
+### offset
+
+The number of objects to "skip" in the request. Put another way, it is the
+starting point of the responses.
+
+#### examples
+
+- limit: 10, offset: 0 => \[0, 1, 2, 3, 4, 5, 6, 7, 8, 9\]
+- limit: 5, offset: 5 => \[5, 6, 7, 8, 9\]

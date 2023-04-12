@@ -1,0 +1,31 @@
+---
+title: "Overview"
+---
+
+We primarily support the following EVM based networks for JSON-RPC calls. These
+networks will have the best performance in our system.
+
+| Name             | Chain Id | URL                                    |
+| ---------------- | -------- | -------------------------------------- |
+| Ethereum mainnet | 1        | https://api.bitski.com/v1/web3/mainnet |
+| Ethereum Goerli  | 5        | https://api.bitski.com/v1/web3/goerli  |
+| Polygon mainnet  | 137      | https://api.bitski.com/v1/web3/polygon |
+| Polygon Mumbai   | 80001    | https://api.bitski.com/v1/web3/mumbai  |
+
+Additionally, any EVM chain on https://chainlist.org/ should work but will be
+using publicly hosted RPC nodes. Simply replace the chain id in the RPC url:
+`https://api.bitski.com/v1/web3/chains/{chain_id}`.
+
+### unsupported networks
+
+Rinkeby and Kovan Ethereum testnets are no longer supported and RPC calls will
+fail.
+
+<Note>
+We're here to help
+
+If you run into any issues let us know in our
+[Discord](https://discord.gg/YJgEcR9YW3). Use the channel `#devs-welcomed` to
+get in touch with our engineering team directly.
+
+</Note>

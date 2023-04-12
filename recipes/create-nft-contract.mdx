@@ -1,0 +1,88 @@
+---
+title: Create an NFT contract
+description: Create a contract that can mint NFTs.
+---
+
+## 1. Configure your application
+
+Set your [auth token](/build-with-bitski/get-started/authentication) and your application id.
+
+```python
+# Get an auth token using your Developer Portal credentials.
+AUTH_TOKEN = ""
+# Your application id is also in the Developer Portal.
+APP_ID = ""
+```
+
+## 2. Configure your contract settings
+
+Set the contract details:
+
+- network is a required field
+- all the others are optional, see [Create a contract](/use-cases/build-a-marketplace/marketplace-apis/create-a-contract) reference for more detail.
+
+The `deployFrom` field defaults to an internal Bitski address.
+
+```python
+# Configure the NFT's metadata
+CONTRACT = {
+    "contract": {
+        "network": "rinkeby",
+        "name": "Bitski Contract Recipe",
+        "symbol": "BCR",
+        "description": "Bitski Contract Recipe",
+        "externalLink": "",
+        "contractType": "SEMI_FUNGIBLE",
+    }
+}
+```
+
+## 3. Create the contract
+
+Send a POST request to the API with the authentication token and contract payload in the request body. You should receive a 200 status code if it worked.
+
+```python
+def create_contract(auth_token, app_id, contract):
+    """Create a NFT contract."""
+
+    response = requests.post(
+        f"https://api.bitski.com/v1/apps/{app_id}/contracts",
+        json=contract,
+        headers={
+            "Authorization": f"Bearer {auth_token}",
+            "Content-Type": "application/json",
+        },
+    )
+    print("Created NFT contract successfully", response.status_code == 200)
+    return response
+```
+
+## 4. Remember your contract id
+
+After creating the contract, you will need to use the returned id to mint an NFT. It will be returned in the `contract.id` field of the JSON response.
+
+```python
+response = create_contract(AUTH_TOKEN, APP_ID, CONTRACT)
+contract_id = response.json()["contract"]["id"]
+print(f"contract id is: {contract_id}")
+```
+
+<ResponseExample>
+
+```json Response
+{
+  "contract": {
+    "id": "12345678-da5b-494c-8719-bdba105e3612",
+    "deploymentState": "DRAFT",
+    "address": null,
+    "network": "rinkeby",
+    "name": "Bitski Contract Recipe",
+    "description": "Bitski Contract Recipe",
+    "externalLink": null,
+    "contractType": "SEMI_FUNGIBLE",
+    "tokenTemplates": []
+  }
+}
+```
+
+</ResponseExample>

@@ -1,0 +1,94 @@
+---
+title: "Create a contract"
+description: "Create a contract for an app."
+api: "POST https://api.bitski.com/v1/apps/{appId}/contracts"
+---
+
+### Path Parameters
+
+<ParamField path="appId" type="string" required />
+
+### Body Parameters
+
+<ParamField body="contract" type="object" >
+
+    <Expandable title ="show objects" >
+
+        <ResponseField name="network" type="string" default= "mainnet" required/>
+        <ResponseField name="name" type="string" />
+        <ResponseField name="symbol" type="string" />
+        <ResponseField name="description" type="string" />
+        <ResponseField name="externalLink" type="string" />
+        <ResponseField name="deployFrom" type="string" />
+        <ResponseField name="contractType" type="string" requried/>
+
+        <ResponseField name="" type="tokenTemplates">
+        If using `NON_FUNGIBLE` or `SEMI_FUNGIBLE` you must pass in an array of token templates.
+        </ResponseField>
+
+    </Expandable>
+
+</ParamField>
+
+### Response
+
+<ParamField body="contracts" type="array of objects" required>
+
+    <Expandable title ="show objects" >
+
+        <ResponseField name="id" type="string" required/>
+        <ResponseField name="deploymentState" type="string" required/>
+        <ResponseField name="address" type="string" />
+        <ResponseField name="network" type="string" required/>
+        <ResponseField name="name" type="string" />
+        <ResponseField name="description" type="string" />
+        <ResponseField name="externalLink" type="url" />
+
+ <ResponseField name="tokenTemplates" type="array of objects" >
+
+            <Expandable title ="show objects" >
+
+                <ResponseField name="id" type="string" />
+                <ResponseField name="contactId" type="string" />
+                <ResponseField name="image" type="string" />
+                <ResponseField name="description" type="string" />
+                <ResponseField name="name" type="string" />
+                <ResponseField name="animationUrl" type="string" />
+                <ResponseField name="defaultMetadata" type="object" />
+                <ResponseField name="gatedContent" type="array of objects" required/>
+                <ResponseField name="kind" type="string" required/>
+                <ResponseField name="url" type="uri" />
+                <ResponseField name="filename" type="string" />
+                <ResponseField name="totalTokens" type="integer" />
+                <ResponseField name="maxTokens" type="integer" />
+                <ResponseField name="prices" type="array of objects" />
+                <ResponseField name="id" type="" />
+                <ResponseField name="currency" type="string" />
+                <ResponseField name="price" type="string" />
+                <ResponseField name="published" type="boolean" />
+                <ResponseField name="liveAt" type="date-time" />
+                <ResponseField name="salesEndAt" type="date-time" />
+                <ResponseField name="payouts" type="object" />
+                <ResponseField name= "delayMinting" type="boolean" />
+
+            </Expandable>
+
+        </ResponseField>
+
+        <ResponseField name="contractType" type="string" required>
+        `UNKNOWN` `NON_FUNGIBLE_AUCTION` `NON_FUNGIBLE` `SEMI_FUNGIBLE` `ZORA_AUCTION`
+        </ResponseField>
+
+    </Expandable>
+
+</ParamField>
+
+<ParamField body= "error" type="object" required >
+  
+    <Expandable title ="" >
+
+        <ResponseField name="message" type="string" />
+
+    </Expandable>
+
+</ParamField>

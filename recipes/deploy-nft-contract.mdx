@@ -1,0 +1,75 @@
+---
+title: Deploy an NFT contract
+description: Deploy a previously created NFT contract.
+---
+
+## 1. Configure your contract
+
+Set your auth token, app ID, and contract ID.
+
+```python
+# Get an auth token using your Developer Portal credentials.
+AUTH_TOKEN = ""
+# Your application id is also in the Developer Portal.
+APP_ID = ""
+# Get your contract id from a previously created contract.
+CONTRACT_ID = ""
+```
+
+## 2. Set the contract type
+
+Set the `deploymentState` to PENDING_PROXY.
+
+```
+body = {"contract": {"deploymentState": "PENDING_PROXY"}}
+```
+
+3. Deploy the contract
+
+Send a PATCH request to the API with the auth token in the body, and app ID and contract ID in the URL. You should receive a 200 status code if it worked.
+
+```python
+def deploy_contract(auth_token, app_id, contract_id):
+    """Deploy an NFT contract."""
+
+    body = {"contract": {"deploymentState": "PENDING_PROXY"}}
+    response = requests.patch(
+        f"https://api.bitski.com/v1/apps/{app_id}/contracts/{contract_id}",
+        json=body,
+        headers={
+            "Authorization": f"Bearer {auth_token}",
+            "Content-Type": "application/json",
+        },
+    )
+    print("Deployed NFT contract successfully", response.status_code == 200)
+    return response
+```
+
+## 4. Verify the contract is deployed
+
+It will take at least a few minutes to deploy, but once done it will show up in your [Creator Portal](https://creator.bitski.com/) under the "Collections" tab and be marked as "DEPLOYED".
+
+```python
+response = deploy_contract(AUTH_TOKEN, APP_ID, CONTRACT_ID)
+print(f"response:\n{response.json()}")
+```
+
+<ResponseExample>
+
+```json
+{
+  "contract": {
+    "id": "12345678-da5b-494c-8719-bdba105e3612",
+    "deploymentState": "PENDING",
+    "address": null,
+    "network": "rinkeby",
+    "name": "Bitski Contract Recipe",
+    "description": "Bitski Contract Recipe",
+    "externalLink": null,
+    "contractType": "SEMI_FUNGIBLE",
+    "tokenTemplates": []
+  }
+}
+```
+
+</ResponseExample>
