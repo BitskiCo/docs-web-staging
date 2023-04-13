@@ -3,8 +3,7 @@
 In addition to providing deeper integrations via our JS SDK and APIs, Bitski also offers a set of plug-and-play connectors which work with the existing Web3 ecosystem. 
 Use the following code snippet below to easily add Bitski to your RainbowKit setup.
 
-```
-import '../styles/globals.css';
+``` jsx
 import '@rainbow-me/rainbowkit/styles.css';
 import { connectorsForWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import type { AppProps } from 'next/app';
@@ -13,12 +12,13 @@ import { arbitrum, goerli, mainnet, optimism, polygon } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import { 
   injectedWallet,
-  bitskiWallet
   walletConnectWallet, 
   rainbowWallet,
   metaMaskWallet,
   coinbaseWallet
 } from '@rainbow-me/rainbowkit/wallets';
+
+import { bitskiWallet } from './bitskiWallet';
 
 const { chains, provider, webSocketProvider } = configureChains(
   [
@@ -42,9 +42,9 @@ const connectors = connectorsForWallets([
     groupName: 'Other Wallets',
     wallets: [
       injectedWallet({ chains }),
-      walletConnectWallet({ chains, projectId: '0b416ed746cf3516ca4f65b89e6e99f8' }),
+      walletConnectWallet({ chains, projectId: 'YOUR_PROJECT_ID' }),
       metaMaskWallet({ chains }),
-      coinbaseWallet({ appName: 'Bitski', chains }),
+      coinbaseWallet({ appName: 'YOUR_APP_NAME', chains }),
       rainbowWallet({ chains }),
     ],
   },
