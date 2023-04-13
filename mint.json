@@ -78,7 +78,7 @@
             {
               "group": "Activity API",
               "pages": [
-                "wallet-as-a-service/wallet-experience-apis/activity-api/activity-api"
+                "wallet-as-a-service/wallet-experience-apis/activity-api/get-activities"
               ]
             },
             {
@@ -128,7 +128,12 @@
     {
       "group": "Integrations",
       "pages": [
-        "integrations/connectors",
+        {
+          "group": "Connectors",
+          "pages": [
+            "integrations/connectors/rainbowkit"
+          ]
+        },
         {
           "group": "Web3",
           "pages": [
