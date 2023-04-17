@@ -1,9 +1,21 @@
 ### RainbowKit
 
 In addition to providing deeper integrations via our JS SDK and APIs, Bitski also offers a set of plug-and-play connectors which work with the existing Web3 ecosystem. 
-Use the following code snippet below to easily add Bitski to your RainbowKit setup.
 
-``` jsx
+Use the following code snippets below to easily add Bitski to your RainbowKit setup. 
+
+These code snippets provide a Bitski connector which can hook into both our browser extension if installed. As a fallback, users can also login or sign up for a Bitksi Vault wallet
+using username and password. This gives Dapps the ability to not only provide a native Web3 solution for crypto natives, but also provide an intuitive onboarding 
+process for new users. 
+
+To see it in action, [view our CodeSandbox environment](https://codesandbox.io/p/github/chronicIntrovert/my-rainbowkit-app/main?file=%2FREADME.md&workspace=%257B%2522activeFilepath%2522%253A%2522%252Fpages%252F_app.tsx%2522%252C%2522openFiles%2522%253A%255B%2522%252FREADME.md%2522%252C%2522%252Fpages%252F_app.tsx%2522%252C%2522%252Fpages%252FbitskiWallet.ts%2522%255D%252C%2522sidebarPanel%2522%253A%2522EXPLORER%2522%252C%2522gitSidebarPanel%2522%253A%2522COMMIT%2522%252C%2522spaces%2522%253A%257B%2522clgfj5x50000x3b6h0qlx0dhw%2522%253A%257B%2522key%2522%253A%2522clgfj5x50000x3b6h0qlx0dhw%2522%252C%2522name%2522%253A%2522Default%2522%252C%2522devtools%2522%253A%255B%257B%2522type%2522%253A%2522PREVIEW%2522%252C%2522taskId%2522%253A%2522dev%2522%252C%2522port%2522%253A3000%252C%2522key%2522%253A%2522clgfj6g23007y3b6hr3lmmpkk%2522%252C%2522isMinimized%2522%253Afalse%257D%252C%257B%2522type%2522%253A%2522TASK_LOG%2522%252C%2522taskId%2522%253A%2522dev%2522%252C%2522key%2522%253A%2522clgfj6elk005d3b6heowtzj3w%2522%252C%2522isMinimized%2522%253Atrue%257D%255D%257D%257D%252C%2522currentSpace%2522%253A%2522clgfj5x50000x3b6h0qlx0dhw%2522%252C%2522spacesOrder%2522%253A%255B%2522clgfj5x50000x3b6h0qlx0dhw%2522%255D%252C%2522hideCodeEditor%2522%253Afalse%257D)
+
+If you're only tailoring your Dapp to crypto natives, you can use the [official RainbowKit connector for Bitski](https://www.rainbowkit.com/docs/custom-wallet-list#bitski). This version of the connector only enables extension access. 
+
+<CodeGroup>
+
+``` tsx app.tsx
+import '../styles/globals.css';
 import '@rainbow-me/rainbowkit/styles.css';
 import { connectorsForWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import type { AppProps } from 'next/app';
@@ -17,6 +29,7 @@ import {
   metaMaskWallet,
   coinbaseWallet
 } from '@rainbow-me/rainbowkit/wallets';
+import { Bitski } from 'bitski';
 
 import { bitskiWallet } from './bitskiWallet';
 
@@ -26,16 +39,24 @@ const { chains, provider, webSocketProvider } = configureChains(
     polygon,
     optimism,
     arbitrum,
-    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [goerli] : []),
   ],
   [publicProvider()]
+);
+
+/*
+ * Replace the clientId and callbackUrl with your own.
+ * You can get a clientId and setup your callback url at https://developer.bitski.com.
+ */
+const bitski = new Bitski(
+  'your-client-id'
+  'https://your-callback-url.com/callback'
 );
 
 const connectors = connectorsForWallets([
   {
     groupName: 'Recommended',
     wallets: [
-      bitskiWallet({ chains }),
+      bitskiWallet({ bitski, chains }),
     ],
   },
   {
@@ -69,3 +90,114 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 export default MyApp;
 ```
+
+``` tsx bitskiWallet.tsx
+import { Chain, Wallet } from "@rainbow-me/rainbowkit";
+import {
+  Ethereum,
+  InjectedConnector,
+  InjectedConnectorOptions,
+} from "@wagmi/core";
+import { Bitski } from "bitski";
+
+export interface BitskiWalletOptions {
+  bitski?: Bitski;
+  chains: Chain[];
+}
+
+class BitskiConnector extends InjectedConnector {
+  bitski?: Bitski;
+  windowEthereum?: Ethereum;
+
+  constructor({
+    bitski,
+    chains,
+    options: options_,
+  }: {
+    bitski?: Bitski;
+    chains?: Chain[];
+    options?: InjectedConnectorOptions;
+  } = {}) {
+    let provider: any;
+
+    if (
+      typeof window !== "undefined" &&
+      (window.ethereum as any) &&
+      (window.ethereum as any).isBitski
+    ) {
+      provider = window.ethereum;
+    }
+
+    if (typeof window !== "undefined" && !provider) {
+      provider = bitski?.getProvider();
+    }
+
+    const options = {
+      shimDisconnect: true,
+      getProvider: () => provider,
+      ...options_,
+    };
+
+    super({ chains, options });
+
+    this.windowEthereum = provider;
+    this.bitski = bitski;
+  }
+
+  private injectProvider() {
+    if (!global.window) return;
+    global.window.ethereum = this.bitski?.getProvider() as unknown as Ethereum;
+  }
+
+  private ejectProvider() {
+    if (!global.window) return;
+    global.window.ethereum = this.windowEthereum;
+  }
+
+  async connect({ chainId }: { chainId?: number } = {}) {
+    this.injectProvider();
+
+    const user = await this.bitski?.signIn();
+    const result = await super.connect({ chainId });
+    return result;
+  }
+
+  async disconnect(): Promise<void> {
+    this.ejectProvider();
+
+    await super.disconnect();
+    await this.bitski?.signOut();
+    await this.bitski?.getAuthStatus();
+  }
+}
+
+export const bitskiWallet = ({
+  bitski,
+  chains,
+  ...options
+}: BitskiWalletOptions & InjectedConnectorOptions): Wallet => ({
+  id: 'bitski',
+  name: 'Bitski',
+  installed:
+    !!bitski ||
+    (typeof window !== 'undefined' &&
+      typeof window.ethereum !== 'undefined' &&
+      ((window.ethereum as any).isBitski === true ||
+        !!window.ethereum.providers?.find((p: any) => p.isBitski === true))),
+  iconUrl: 'https://cdn.bitskistatic.com/docs-web/bitskiWallet.svg',
+  iconBackground: '#fff',
+  downloadUrls: {
+    browserExtension:
+      'https://chrome.google.com/webstore/detail/bitski/feejiigddaafeojfddjjlmfkabimkell',
+    ios: 'https://apps.apple.com/us/app/bitski-wallet/id1587199538',
+  },
+  createConnector: () => ({
+    connector: new BitskiConnector({
+      bitski,
+      chains,
+      options,
+    }),
+  }),
+});
+```
+</CodeGroup>
