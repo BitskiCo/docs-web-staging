@@ -4,13 +4,14 @@ In addition to providing deeper integrations via our JS SDK and APIs, Bitski als
 
 Use the following code snippets below to easily add Bitski to your RainbowKit setup. 
 
-These code snippets provide a Bitski connector which can hook into both our browser extension if installed. As a fallback, users can also login or sign up for a Bitksi Vault wallet
+These code snippets provide a Bitski connector which can hook into our browser extension if installed. As a fallback, users can also login or sign up for a Bitksi Vault wallet
 using username and password. This gives Dapps the ability to not only provide a native Web3 solution for crypto natives, but also provide an intuitive onboarding 
 process for new users. 
 
-To see it in action, [view our CodeSandbox environment](https://codesandbox.io/p/github/chronicIntrovert/my-rainbowkit-app/main?file=%2FREADME.md&workspace=%257B%2522activeFilepath%2522%253A%2522%252Fpages%252F_app.tsx%2522%252C%2522openFiles%2522%253A%255B%2522%252FREADME.md%2522%252C%2522%252Fpages%252F_app.tsx%2522%252C%2522%252Fpages%252FbitskiWallet.ts%2522%255D%252C%2522sidebarPanel%2522%253A%2522EXPLORER%2522%252C%2522gitSidebarPanel%2522%253A%2522COMMIT%2522%252C%2522spaces%2522%253A%257B%2522clgfj5x50000x3b6h0qlx0dhw%2522%253A%257B%2522key%2522%253A%2522clgfj5x50000x3b6h0qlx0dhw%2522%252C%2522name%2522%253A%2522Default%2522%252C%2522devtools%2522%253A%255B%257B%2522type%2522%253A%2522PREVIEW%2522%252C%2522taskId%2522%253A%2522dev%2522%252C%2522port%2522%253A3000%252C%2522key%2522%253A%2522clgfj6g23007y3b6hr3lmmpkk%2522%252C%2522isMinimized%2522%253Afalse%257D%252C%257B%2522type%2522%253A%2522TASK_LOG%2522%252C%2522taskId%2522%253A%2522dev%2522%252C%2522key%2522%253A%2522clgfj6elk005d3b6heowtzj3w%2522%252C%2522isMinimized%2522%253Atrue%257D%255D%257D%257D%252C%2522currentSpace%2522%253A%2522clgfj5x50000x3b6h0qlx0dhw%2522%252C%2522spacesOrder%2522%253A%255B%2522clgfj5x50000x3b6h0qlx0dhw%2522%255D%252C%2522hideCodeEditor%2522%253Afalse%257D)
-
-If you're only tailoring your Dapp to crypto natives, you can use the [official RainbowKit connector for Bitski](https://www.rainbowkit.com/docs/custom-wallet-list#bitski). This version of the connector only enables extension access. 
+<Note>
+Required dependencies: [@rainbow-me/rainbowkit](https://www.rainbowkit.com), [bitski](https://github.com/BitskiCo/bitski-js), [wagmi](https://wagmi.sh)
+See the CodeSandbox's `package.json` for more details.
+</Note>
 
 <CodeGroup>
 
@@ -201,3 +202,12 @@ export const bitskiWallet = ({
 });
 ```
 </CodeGroup>
+
+<CardGroup cols={2}>
+<Card title="CodeSandbox" icon="codepen" color="#ea5a0c" href="https://codesandbox.io/p/github/chronicIntrovert/my-rainbowkit-app/main?file=%2FREADME.md&workspace=%257B%2522activeFilepath%2522%253A%2522%252Fpages%252F_app.tsx%2522%252C%2522openFiles%2522%253A%255B%2522%252FREADME.md%2522%252C%2522%252Fpages%252F_app.tsx%2522%252C%2522%252Fpages%252FbitskiWallet.ts%2522%255D%252C%2522sidebarPanel%2522%253A%2522EXPLORER%2522%252C%2522gitSidebarPanel%2522%253A%2522COMMIT%2522%252C%2522spaces%2522%253A%257B%2522clgfj5x50000x3b6h0qlx0dhw%2522%253A%257B%2522key%2522%253A%2522clgfj5x50000x3b6h0qlx0dhw%2522%252C%2522name%2522%253A%2522Default%2522%252C%2522devtools%2522%253A%255B%257B%2522type%2522%253A%2522PREVIEW%2522%252C%2522taskId%2522%253A%2522dev%2522%252C%2522port%2522%253A3000%252C%2522key%2522%253A%2522clgfj6g23007y3b6hr3lmmpkk%2522%252C%2522isMinimized%2522%253Afalse%257D%252C%257B%2522type%2522%253A%2522TASK_LOG%2522%252C%2522taskId%2522%253A%2522dev%2522%252C%2522key%2522%253A%2522clgfj6elk005d3b6heowtzj3w%2522%252C%2522isMinimized%2522%253Atrue%257D%255D%257D%257D%252C%2522currentSpace%2522%253A%2522clgfj5x50000x3b6h0qlx0dhw%2522%252C%2522spacesOrder%2522%253A%255B%2522clgfj5x50000x3b6h0qlx0dhw%2522%255D%252C%2522hideCodeEditor%2522%253Afalse%257D">
+    View an interactive demo of the Bitski connector for RainbowKit
+  </Card>
+  <Card title="More info" icon="square-info" color="#0285c7" href="https://www.rainbowkit.com/docs/custom-wallet-list#bitski">
+    If you're tailoring your Dapp to only crypto natives, see the official RainbowKit connector for Bitski
+  </Card>
+</CardGroup>
