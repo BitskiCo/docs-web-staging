@@ -48,25 +48,6 @@
       "pages": ["products/bitski-vault", "products/droplinks/droplinks"]
     },
     {
-      "group": "Build With Bitski",
-      "pages": [
-        "build-with-bitski/get-started",
-        "build-with-bitski/authentication",
-        "build-with-bitski/configure-app-settings",
-        {
-          "group": "Recipes",
-          "pages": [
-            "build-with-bitski/recipes/get-access-token",
-            "build-with-bitski/recipes/create-nft-contract",
-            "build-with-bitski/recipes/create-token-template",
-            "build-with-bitski/recipes/deploy-nft-contract",
-            "build-with-bitski/recipes/developers-first-steps-on-bitski"
-          ]
-        },
-        "build-with-bitski/faq"
-      ]
-    },
-    {
       "group": "Wallet as a Service (WaaS)",
       "pages": [
         "wallet-as-a-service/overview",
@@ -128,6 +109,8 @@
     {
       "group": "Integrations",
       "pages": [
+        "integrations/get-started",
+        "integrations/authentication",
         {
           "group": "Connectors",
           "pages": [
@@ -138,65 +121,16 @@
           "group": "Web3",
           "pages": [
             "integrations/web-3/web3-get-started",
-            "integrations/web-3/json-rpc-support",
-            "integrations/web-3/using-operators",
-            "integrations/web-3/transaction-operator"
+            "integrations/web-3/json-rpc-support"
           ]
         },
         {
           "group": "SDK",
           "pages": [
-            "integrations/sdk/sdk-overview",
-            "integrations/sdk/verify-a-users-wallet"
-          ]
-        }
-      ]
-    },
-    {
-      "group": "Use Cases",
-      "pages": [
-        {
-          "group": "Power a Marketplace",
-          "pages": [
-            {
-              "group": "Marketplace APIs",
-              "pages": [
-                "use-cases/power-a-marketplace/marketplace-apis/create-a-contract",
-                "use-cases/power-a-marketplace/marketplace-apis/get-a-contract",
-                "use-cases/power-a-marketplace/marketplace-apis/update-a-contract",
-                "use-cases/power-a-marketplace/marketplace-apis/get-all-contracts",
-                "use-cases/power-a-marketplace/marketplace-apis/get-contracts-templates",
-                "use-cases/power-a-marketplace/marketplace-apis/create-a-token",
-                "use-cases/power-a-marketplace/marketplace-apis/create-token-template",
-                "use-cases/power-a-marketplace/marketplace-apis/get-token-template",
-                "use-cases/power-a-marketplace/marketplace-apis/update-token-template",
-                "use-cases/power-a-marketplace/marketplace-apis/get-all-products",
-                "use-cases/power-a-marketplace/marketplace-apis/get-a-single-product"
-              ]
-            },
-            "use-cases/power-a-marketplace/get-started",
-            "use-cases/power-a-marketplace/billing-payouts",
-            "use-cases/power-a-marketplace/your-collections",
-            "use-cases/power-a-marketplace/launching-your-nft",
-            "use-cases/power-a-marketplace/publish-your-nft"
+            "integrations/sdk/sdk-overview"
           ]
         },
-        {
-          "group": "Custom Wallets",
-          "pages": [
-            "use-cases/custom-wallets/wallet-overview",
-            "use-cases/custom-wallets/enterprise-wallet",
-            "use-cases/custom-wallets/whitelabel-wallet"
-          ]
-        },
-        {
-          "group": "Partners",
-          "pages": [
-            "use-cases/partners/coindesk",
-            "use-cases/partners/centaurify",
-            "use-cases/partners/layer-3"
-          ]
-        }
+        "integrations/faq"
       ]
     }
   ],
