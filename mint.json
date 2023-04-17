@@ -115,8 +115,8 @@
           "group": "Connectors",
           "pages": [
             "integrations/connectors/rainbowkit",
-            "integrations/connectors/walletconnect.mdx",
-            "integrations/connectors/block-native.mdx"
+            "integrations/connectors/walletconnect",
+            "integrations/connectors/block-native"
           ]
         },
         {
