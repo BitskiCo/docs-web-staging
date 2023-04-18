@@ -1,11 +1,28 @@
 ---
-title: "GET /v2/balances"
+title: "GET Balances"
+api: "GET https://api.bitski.com/v2/balances"
+description: "Get the NFT and currency balances for a set of addresses across chains."
 ---
 
-Get the NFT and currency balances for a set of addresses across chains.
+### Parameters
+
+<ParamField query="address" type="string" placeholder="0x1e1834a97f7bbab0175ef59788c1b9da30efd97b" required>
+  The wallet address to retrieve balances for.
+</ParamField>
+
+<ParamField query="chainIds" type="string" placeholder="1" optional default="1,137">
+  Comma-separated list of chain IDs to query activities for.
+</ParamField>
+
+<ParamField query="nfts" type="boolean" optional default="false">
+  Filter for NFT balances only. By default, balances only returns currencies.
+</ParamField>
+
+### Examples
+![NFT Balances](/assets/images/balances.png)
 
 <ResponseExample>
-``` json Balances Sample Response
+``` json Sample Response
 {
   "balances": [
     {

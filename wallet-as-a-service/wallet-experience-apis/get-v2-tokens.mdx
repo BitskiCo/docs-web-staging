@@ -1,34 +1,74 @@
 ---
-title: "GET /v2/tokens"
-description: "GET /v2/tokens/{coinType}/{chainId}{contractAddress}/{tokenId}"
+title: "GET Tokens"
+api: "GET https://api.bitski.com/v2/tokens/{coinType}/{chainId}/{contractAddress}/{tokenId}"
+description: "Get metadata about a given token, including floor prices, spam scores, and cached image and video assets."
 ---
 
-Get metadata about a given token, including floor prices, spam scores, and cached image and video assets. 
+### Path
+<ParamField path="coinType" type="string" placeholder="60" required>
+  The coin type of the token. 
+</ParamField>
+
+<ParamField path="chainId" type="string" placeholder="137"  required>
+  The chain ID of the token.
+</ParamField>
+
+<ParamField path="contractAddress" type="string" placeholder="0xb010d3ed7209506ab110c5de197a48abd1cc493f" required>
+  The contract address of the token.
+</ParamField>
+
+<ParamField path="tokenId" type="string" placeholder="129561570933110973282272298182881312837" required>
+  The ID of the token.
+</ParamField>
+
+### Example
+![NFT Detail](/assets/images/get-token.png)
 
 <ResponseExample>
-``` json Tokens Sample Response
+``` json Sample Response
 {
   "token": {
     "coinType": 60,
-    "chainId": 1,
-    "contractAddress": "0xa51cee4dd9a4e254dd5b8923024de5aab050391d",
-    "id": "0x38f",
+    "chainId": 137,
+    "contractAddress": "0xb010d3ed7209506ab110c5de197a48abd1cc493f",
+    "id": "0x6178a6a20ce747bfbbc6f057efe80045",
     "metadata": {
-      "name": "Leisurist #911",
-      "image": "https://cdn.simplehash.com/assets/0cc8233eec41c994fe4cdf0de3e850b389ce136bc783a2acd456322a966c1a51.jpg",
-      "description": "Welcome to Grand Leisure’s Bespoke Leisurist Collection. An exclusive NFT offering from the Poolsuite Internet Leisure Corporation, where every one of the ten thousand unique Leisurists has their own story to tell. From importers of artisanal handblown margarita glasses to salty but lovable seaplane captains of the sky (and sea), your Leisurist awaits. So grab a chilled bottle of Lambrusco and climb aboard motor yacht NICOLETTA as we chart a course to discover what’s possible in leisure online and atop the high seas of The Web III.",
-      "externalUrl": "https://grandleisure.org/",
-      "marketplaceUrl": "https://opensea.io/assets/ethereum/0xa51cee4dd9a4e254dd5b8923024de5aab050391d/911",
+      "name": "Moonbirds x Bitski Open Edition",
+      "image": "https://lh3.googleusercontent.com/L6PpBk9qa4OqLZFhODrRnDgel3BB0-4XBNJ3jXAxc7bcFaJhpfGyKIHgwz5FlOXqKToimNDTWbiGw32hZY9yp7Yx_SzOVAyH_HM=s1000",
+      "animationUrl": "https://cdn.simplehash.com/assets/2a2d30b2eb1160b67f506a42f1d3e4131d818ae831cdfeb1a2469f7942694300.mp4",
+      "description": "This Moonbirds-inspired open edition is an ode to the CC0 roots of the Moonbirds community. Moonbirds are art collectors, creatives, and dreamers, and we believe Web3 needs more of that ethos in its communities. This gasless, free special Open Edition NFT will only be available to claim for a short period of time and has no value or roadmap attached to it.",
+      "externalUrl": "https://www.bitski.com/bitski",
+      "marketplaceUrl": "https://opensea.io/assets/matic/0xb010d3ed7209506ab110c5de197a48abd1cc493f/129561570933110973282272298182881312837",
       "attributes": [
         {
-          "traitType": "Location",
-          "value": "Amalfi Sunset"
+          "traitType": "Collection",
+          "value": "Moonbirds"
+        },
+        {
+          "traitType": "Hoot",
+          "value": "Hoot"
+        },
+        {
+          "traitType": "License",
+          "value": "CC0"
+        },
+        {
+          "traitType": "Partner",
+          "value": "Bitski"
         }
-        ...
       ],
+      "hasRarityData": false,
+      "properties": {
+        "Collection": "Moonbirds",
+        "Hoot": "Hoot",
+        "License": "CC0",
+        "Partner": "Bitski"
+      }
     }
   }
 }
 ```
 </ResponseExample>
+
+
 

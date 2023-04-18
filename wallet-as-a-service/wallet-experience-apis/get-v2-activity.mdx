@@ -1,11 +1,26 @@
 ---
-title: "GET /v2/activity"
+title: "GET Activities"
+api: "GET https://api.bitski.com/v2/activities"
+description: "See full parsed history for all actions taken on-chain. Includes ENS resolution and multi-effect activity details for complex activity types."
 ---
 
-See full parsed history for all actions taken on-chain. Includes ENS resolution and multi-effect activity details for complex activity types.
+### Parameters
+
+<ParamField query="address" type="string" placeholder="0x1e1834a97f7bbab0175ef59788c1b9da30efd97b" required>
+  The wallet address to retrieve activities for.
+</ParamField>
+
+<ParamField query="chainIds" type="string" placeholder="1" optional default="1,137">
+  Comma-separated list of chain IDs to query activities for.
+</ParamField>
+
+### Examples
+<iframe src="https://cdn.bitskistatic.com/docs-web/activity-feed.mp4" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+
+![Activity Feed](/assets/images/activity.png)
 
 <ResponseExample>
-``` json Activity Sample Response
+``` json Sample Response
 {
   "activities":[
     {
