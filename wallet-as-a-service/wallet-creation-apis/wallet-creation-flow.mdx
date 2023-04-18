@@ -4,6 +4,8 @@ title: "Wallet Creation Flow"
 
 A Bitski powered Ethereum wallet can be connected to your user's account using a standard OAuth/OIDC login flow illustrated below. This flow can be managed by any standard OIDC client, or implemented directly.
 
+![Wallet Creation Flow]](/assets/images/wallet-creation-flow.png)
+
 ### Node JS Example
 Here is an example using the nodejs [oauth4webapi](https://www.npmjs.com/package/oauth4webapi) client, but the flow will work using an OAuth client for any language. There are only two endpoints required, one to retrieve client credentials, and one to generate accounts for your user.
 
@@ -54,4 +56,5 @@ export async function createAccount(userId: string): Promise<string> {
 ### Account Transfer
 If enabled, users can transfer their wallets out of the WaaS offering by claiming their account and setting up login credentials. After claiming the account they can use it via the Bitski wallet applications on iOS, web, or browser extension, and use it across the ethereum ecosystem like normal.
 
+### Demo
 See https://shadow-wallets-demo.pages.dev for an example of creating and claiming accounts via Twitter.
