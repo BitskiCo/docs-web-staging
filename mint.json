@@ -45,7 +45,7 @@
     },
     {
       "group": "Products",
-      "pages": ["products/bitski-vault", "products/droplinks/droplinks"]
+      "pages": ["products/bitski-wallet", "products/droplinks/droplinks"]
     },
     {
       "group": "Wallet as a Service (WaaS)",
