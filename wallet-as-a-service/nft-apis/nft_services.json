@@ -1,0 +1,1021 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "NFT Service APIs",
+    "description": "",
+    "license": {
+      "name": ""
+    },
+    "version": "2.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.bitski.com",
+      "description": "Main API endpoint"
+    }
+  ],
+  "paths": {
+    "/v1/apps/{appId}/contracts": {
+      "get": {
+        "tags": [
+          "Contracts"
+        ],
+        "operationId": "list_contracts",
+        "parameters": [
+          {
+            "name": "includeTokenTemplates",
+            "in": "query",
+            "description": "Whether to include token templates in the response",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "isDeployed",
+            "in": "query",
+            "description": "Filter by deployment status",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "nullable": true
+            }
+          },
+          {
+            "name": "includeWatched",
+            "in": "query",
+            "description": "Filter by access type",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "nullable": true
+            }
+          },
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Your Bitski Application ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List contracts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContractsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedResponse"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "apps"
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/products": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "operationId": "list_products",
+        "parameters": [
+          {
+            "name": "baseUrl",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "saleType",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/SaleTypeQuery"
+                }
+              ],
+              "nullable": true
+            }
+          },
+          {
+            "name": "sold",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "nullable": true
+            }
+          },
+          {
+            "name": "all",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0.0
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0.0
+            }
+          },
+          {
+            "name": "includeUpcoming",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "liveAt",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List products",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AccessType": {
+        "type": "string",
+        "enum": [
+          "OWNED",
+          "WATCHED"
+        ]
+      },
+      "Auction": {
+        "type": "object",
+        "required": [
+          "tokenId",
+          "status"
+        ],
+        "properties": {
+          "auctionContractId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "endsAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "info": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AuctionInfo"
+              }
+            ],
+            "nullable": true
+          },
+          "startsAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "example": "CREATED"
+          },
+          "tokenId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "AuctionInfo": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/OnChainAuctionInfo"
+          },
+          {
+            "$ref": "#/components/schemas/OffChainAuctionInfo"
+          }
+        ]
+      },
+      "Contract": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ContractType"
+          },
+          {
+            "type": "object",
+            "required": [
+              "id",
+              "deploymentState",
+              "address",
+              "network",
+              "accessType"
+            ],
+            "properties": {
+              "accessType": {
+                "$ref": "#/components/schemas/AccessType"
+              },
+              "address": {
+                "type": "string",
+                "description": "The address of this contract",
+                "example": "0x8b53d6e704485ef70bd02e2a91df126935a127c9"
+              },
+              "deploymentState": {
+                "type": "string",
+                "description": "The state of the contract",
+                "example": "DEPLOYED"
+              },
+              "description": {
+                "type": "string",
+                "description": "The description of the contract",
+                "example": "A collection of great NFTs",
+                "nullable": true
+              },
+              "externalLink": {
+                "type": "string",
+                "description": "An optional link to the entity that owns the contract",
+                "example": "https://www.bitski.com/@Stapleverse"
+              },
+              "fee": {
+                "type": "string",
+                "description": "The fee to deploy the contract",
+                "example": "25.00"
+              },
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The id of the contract"
+              },
+              "name": {
+                "type": "string",
+                "description": "The name of the contract",
+                "example": "My NFT Collection",
+                "nullable": true
+              },
+              "network": {
+                "type": "string",
+                "description": "The network this contract is minted on",
+                "example": "mainnet"
+              }
+            }
+          }
+        ]
+      },
+      "ContractType": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "contractType"
+            ],
+            "properties": {
+              "contractType": {
+                "type": "string",
+                "enum": [
+                  "UNKNOWN"
+                ]
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "contractType"
+            ],
+            "properties": {
+              "contractType": {
+                "type": "string",
+                "enum": [
+                  "NON_FUNGIBLE_AUCTION"
+                ]
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "tokenTemplates",
+              "contractType"
+            ],
+            "properties": {
+              "contractType": {
+                "type": "string",
+                "enum": [
+                  "NON_FUNGIBLE"
+                ]
+              },
+              "tokenTemplates": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/TokenTemplate"
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "contractType"
+            ],
+            "properties": {
+              "contractType": {
+                "type": "string",
+                "enum": [
+                  "SEMI_FUNGIBLE"
+                ]
+              },
+              "tokenTemplates": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/TokenTemplate"
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "contractType"
+            ],
+            "properties": {
+              "contractType": {
+                "type": "string",
+                "enum": [
+                  "ZORA_AUCTION"
+                ]
+              }
+            }
+          }
+        ],
+        "discriminator": {
+          "propertyName": "contractType"
+        }
+      },
+      "ContractsResponse": {
+        "type": "object",
+        "required": [
+          "contracts"
+        ],
+        "properties": {
+          "contracts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Contract"
+            }
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "description": "Error response body",
+        "required": [
+          "code",
+          "status",
+          "request",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The status code for the error",
+            "example": 401,
+            "minimum": 0.0
+          },
+          "message": {
+            "type": "string",
+            "description": "The error message associated with the error",
+            "example": "The request could not be authorized"
+          },
+          "request": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The request identifier"
+          },
+          "status": {
+            "type": "string",
+            "description": "The status code text for the error",
+            "example": "Unauthorized"
+          }
+        }
+      },
+      "OffChainAuctionInfo": {
+        "type": "object",
+        "required": [
+          "id",
+          "tokenMetadata",
+          "bids",
+          "automaticSettlement",
+          "currency"
+        ],
+        "properties": {
+          "automaticSettlement": {
+            "type": "boolean",
+            "description": "Whether the auction can be settled after closing"
+          },
+          "bids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicOffChainBid"
+            },
+            "description": "Current bids"
+          },
+          "currency": {
+            "type": "string",
+            "description": "The currency in which auction bids are placed",
+            "example": "USD"
+          },
+          "ended": {
+            "type": "boolean",
+            "description": "If the auction has ended"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The auction ID"
+          },
+          "minBid": {
+            "type": "string",
+            "description": "The minimum bid to start the auction",
+            "example": "10.00"
+          },
+          "tokenMetadata": {
+            "$ref": "#/components/schemas/TokenMetadata"
+          }
+        }
+      },
+      "OnChainAuctionInfo": {
+        "type": "object",
+        "required": [
+          "id",
+          "network",
+          "tokenId",
+          "tokenContractAddress",
+          "auctionContractAddress",
+          "tokenMetadata",
+          "bids",
+          "automaticSettlement",
+          "auctionStandard"
+        ],
+        "properties": {
+          "auctionContractAddress": {
+            "type": "string",
+            "description": "The address of the auction contract that facilitates the bidding",
+            "example": "0xa4ef984773fd233c4cbed9cb1b905a3fa21e9461"
+          },
+          "auctionStandard": {
+            "type": "string",
+            "example": "NON_FUNGIBLE_AUCTION"
+          },
+          "automaticSettlement": {
+            "type": "boolean"
+          },
+          "bids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OnChainBid"
+            }
+          },
+          "ended": {
+            "type": "boolean"
+          },
+          "externalId": {
+            "type": "string",
+            "description": "External id is used when the bid comes from a third party auction like ZORA",
+            "example": null,
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The auction ID"
+          },
+          "network": {
+            "type": "string",
+            "description": "The ethereum network name",
+            "example": "mainnet"
+          },
+          "tokenContractAddress": {
+            "type": "string",
+            "description": "The address of the token contract that contains the token",
+            "example": "0x0C3b9C785723B79Cf8D61a4A71E0ab5A00584772"
+          },
+          "tokenId": {
+            "type": "string",
+            "description": "The id of the token being auctioned",
+            "example": "0x1"
+          },
+          "tokenMetadata": {
+            "$ref": "#/components/schemas/TokenMetadata"
+          }
+        }
+      },
+      "OnChainBid": {
+        "type": "object",
+        "required": [
+          "auctionId",
+          "bidder",
+          "amount",
+          "transactionHash"
+        ],
+        "properties": {
+          "amount": {
+            "type": "string",
+            "example": "0x105b73c286c329a1"
+          },
+          "auctionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "bidder": {
+            "type": "string",
+            "example": "22e693e7-befc-4c6f-a135-5f0029c556c2"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "currency": {
+            "type": "string",
+            "example": "0xa4ef984773fd233c4cbed9cb1b905a3fa21e9461"
+          },
+          "transactionHash": {
+            "type": "string",
+            "example": "0x76cbbfd0fa31059647017c28a0f855b6494b995ac77e1228064ba47debf0bb34"
+          },
+          "username": {
+            "type": "string",
+            "example": "nft_fan",
+            "nullable": true
+          }
+        }
+      },
+      "Price": {
+        "type": "object",
+        "required": [
+          "currency",
+          "price"
+        ],
+        "properties": {
+          "currency": {
+            "type": "string",
+            "description": "The currency for this price",
+            "example": "USD"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The price id"
+          },
+          "price": {
+            "type": "string",
+            "description": "The amount each item costs",
+            "example": "200.00"
+          }
+        }
+      },
+      "Product": {
+        "type": "object",
+        "required": [
+          "id",
+          "network",
+          "tokenContractAddress",
+          "tokenMetadata",
+          "gatedContent",
+          "totalSold",
+          "prices",
+          "auctions",
+          "createdAt",
+          "saleType",
+          "isGated"
+        ],
+        "properties": {
+          "auctions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Auction"
+            },
+            "description": "Auctions for this product's tokens"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date this product was created"
+          },
+          "gatedContent": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Content that is only accessible when owning the content",
+            "example": [
+              "FULL_RESOLUTION_IMAGE"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The product id"
+          },
+          "isGated": {
+            "type": "boolean",
+            "description": "If the product is gated or not"
+          },
+          "liveAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date this product goes live",
+            "nullable": true
+          },
+          "network": {
+            "type": "string",
+            "description": "The ethereum network id",
+            "example": "mainnet"
+          },
+          "previewAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date this product is previewable before it goes live",
+            "nullable": true
+          },
+          "prices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Price"
+            },
+            "description": "The available prices for this product"
+          },
+          "purchaseLink": {
+            "type": "string",
+            "description": "The link to purchase this product",
+            "example": "https://www.bitski.com/@Stapleverse/products/staple-x-crocs-d0158741-f7d4-41a8-8a38-b652d8d43d5c",
+            "nullable": true
+          },
+          "saleType": {
+            "$ref": "#/components/schemas/SaleType"
+          },
+          "salesEndAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date this product's sales end",
+            "nullable": true
+          },
+          "tokenContractAddress": {
+            "type": "string",
+            "description": "The token contract address",
+            "example": "0xbd229ff702c5142e9b6d81648eeda7b7048b8cc9"
+          },
+          "tokenMetadata": {
+            "$ref": "#/components/schemas/TokenMetadata"
+          },
+          "totalAvailable": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The total amount of tokens available",
+            "example": 100,
+            "nullable": true
+          },
+          "totalSold": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The total amount of tokens already sold",
+            "example": 64
+          },
+          "username": {
+            "type": "string",
+            "description": "The username of the creator of this product",
+            "example": "nft_creator",
+            "nullable": true
+          }
+        }
+      },
+      "ProductsResponse": {
+        "type": "object",
+        "required": [
+          "products"
+        ],
+        "properties": {
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            }
+          }
+        }
+      },
+      "PublicOffChainBid": {
+        "type": "object",
+        "required": [
+          "auctionId",
+          "currency",
+          "amount"
+        ],
+        "properties": {
+          "amount": {
+            "type": "string",
+            "example": "200.00"
+          },
+          "auctionId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The id of the auction"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp of the bid"
+          },
+          "currency": {
+            "type": "string",
+            "description": "The currency of the bid",
+            "example": "USD"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The id of the bid"
+          },
+          "username": {
+            "type": "string",
+            "example": "nft_fan",
+            "nullable": true
+          }
+        }
+      },
+      "SaleType": {
+        "type": "string",
+        "enum": [
+          "LIMITED_EDITION",
+          "OPEN_EDITION",
+          "OFF_CHAIN_AUCTION",
+          "ON_CHAIN_AUCTION"
+        ]
+      },
+      "SaleTypeQuery": {
+        "type": "string",
+        "enum": [
+          "EDITION",
+          "LIMITED_EDITION",
+          "OPEN_EDITION",
+          "AUCTION",
+          "OFF_CHAIN_AUCTION",
+          "ON_CHAIN_AUCTION"
+        ]
+      },
+      "TokenMetadata": {
+        "type": "object",
+        "properties": {
+          "animation_url": {
+            "type": "string",
+            "description": "Token animation url",
+            "example": null
+          },
+          "attributes": {
+            "type": "array",
+            "items": {},
+            "description": "Token attributes",
+            "example": null
+          },
+          "background_color": {
+            "type": "string",
+            "description": "Token background color",
+            "example": null,
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "Token description",
+            "example": "A very special NFT",
+            "nullable": true
+          },
+          "external_url": {
+            "type": "string",
+            "description": "The url of the entity related to the token",
+            "example": "https://www.bitski.com/@Stapleverse"
+          },
+          "image": {
+            "type": "string",
+            "description": "The token image",
+            "example": "https://cdn.bitskistatic.com/tokens-raw/54676382-bab5-408d-afe2-fc6f160da4a8/06fd0294-a425-44c7-96e8-9d24757163b4.png",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Token name",
+            "example": "NFT Token #1",
+            "nullable": true
+          },
+          "properties": {
+            "type": "object",
+            "description": "Token properties"
+          },
+          "youtube_url": {
+            "type": "string",
+            "description": "YouTube url associated with the token",
+            "example": null
+          }
+        }
+      },
+      "TokenTemplate": {
+        "type": "object",
+        "description": "A template from which tokens will be created",
+        "required": [
+          "contractId"
+        ],
+        "properties": {
+          "animationUrl": {
+            "type": "string",
+            "description": "The animation url the tokens will have",
+            "example": null,
+            "nullable": true
+          },
+          "contractId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The contract id that tokens will be minted for"
+          },
+          "defaultMetadata": {
+            "type": "object",
+            "description": "Default metadata associated with each token"
+          },
+          "delayMinting": {
+            "type": "boolean",
+            "description": "If minting is delayed"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description the tokens will have",
+            "example": "A great token",
+            "nullable": true
+          },
+          "gatedContent": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "Content that is only available to the user who owns the token",
+            "example": []
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The id of the token template"
+          },
+          "image": {
+            "type": "string",
+            "description": "The image the tokens will have",
+            "example": "https://cdn.bitskistatic.com/tokens-raw/54676382-bab5-408d-afe2-fc6f160da4a8/06fd0294-a425-44c7-96e8-9d24757163b4.png"
+          },
+          "isDropLink": {
+            "type": "boolean",
+            "description": "If this token is available as a drop link"
+          },
+          "liveAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The time this token is available",
+            "nullable": true
+          },
+          "maxTokens": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The maximum amount of tokens to mint",
+            "example": 100,
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "The description the tokens will have",
+            "example": "Bird NFT",
+            "nullable": true
+          },
+          "namingTemplate": {
+            "type": "string",
+            "description": "The naming convention for tokens minted via this template",
+            "example": "DEFAULT"
+          },
+          "payouts": {
+            "type": "object",
+            "description": "The payout split when tokens are sold"
+          },
+          "previewAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The time this token can be previewed before it is available",
+            "nullable": true
+          },
+          "prices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Price"
+            },
+            "description": "The prices at which to sell this token"
+          },
+          "published": {
+            "type": "boolean",
+            "description": "If this token is published or paused"
+          },
+          "salesEndAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The time sales of this token end",
+            "nullable": true
+          },
+          "totalTokens": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The total amount of tokens already minted",
+            "example": 57
+          }
+        }
+      }
+    },
+    "responses": {
+      "UnauthorizedResponse": {
+        "description": "Access token is invalid or missing",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "description": "Access token is invalid or missing",
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "oauth2": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://account.bitski.com/oauth2/token",
+            "scopes": {
+              "apps": "manage my applications"
+            }
+          }
+        },
+        "description": "Client credentials"
+      }
+    }
+  }
+}

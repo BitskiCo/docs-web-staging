@@ -4,87 +4,194 @@ api: "GET https://api.bitski.com/v1/products"
 description: "Get a list of all the live products for a storefront."
 ---
 
-### Query Paramters
+### Parameters
 
-<ParamField query="baseUrl" type="string" default="https://www.bitski.com/@bitski">
+<ParamField query="baseUrl" type="string" placeholder="https://www.bitski.com/@bitski" optional>
   URL for a Bitski creator, e.g. https://www.bitski.com/@username, to filter
-  products by.
+  products by. By default, uses the current user's first storefront in the list.
 </ParamField>
 
-<ParamField query="limit" type="integer">
-  Limit the number of products returned.
+<ParamField query="saleType" type="string" optional>
+  Which type of product listing to return. 
+  One of `EDITION`, `LIMITED_EDITION`, `OPEN_EDITION`, `AUCTION`, `OFF_CHAIN_AUCTION`, `ON_CHAIN_AUCTION`
 </ParamField>
 
-<ParamField query="offset" type="integer" >
-Product to start from when paginating.
-
-</ParamField>
-
-<ParamField query="saleType" type="string">
-  Which type of product listing to return.
-</ParamField>
-
-<ParamField query="sold" type="boolean">
+<ParamField query="sold" type="boolean" optional>
   Filter by if the product is sold (true) or not (false).
 </ParamField>
 
-### Response
+<ParamField query="all" type="boolean" optional>
+  Filter by all products.
+</ParamField>
 
+<ParamField query="includeUpcoming" type="boolean" optional>
+  Include upcoming products scheduled to go live.
+</ParamField>
+
+<ParamField query="liveAt" type="string" optional>
+  The date a product or list of product goes live.
+</ParamField>
+
+<ParamField query="limit" type="integer" optional default="0">
+  Limit the number of products returned.
+</ParamField>
+
+<ParamField query="offset" type="integer" optional default="0">
+  Product to start from when paginating.
+</ParamField>
+
+### Response 
 <ParamField body="products" type="array of objects" required>
-
-    <Expandable title ="show objects" >
-
-        <ResponseField name="id" type="string" required/>
-        <ResponseField name="network" type="string" required/>
-        <ResponseField name="tokenContractAddress" type="string" required/>
-        <ResponseField name="tokenMetadata" type="" required/>
-        <ResponseField name="gatedContenct" type="" required/>
-        <ResponseField name="totalAvailable" type="" required/>
-        <ResponseField name="totalSold" type="" required/>
-
-        <ResponseField name="prices" type="array of objects" required>
-
-            <Expandable title ="show objects" >
-
-                <ResponseField name="id" type="string" />
-                <ResponseField name="currency" type="string" />
-                <ResponseField name="price" type="string" />
-
-            </Expandable>
-
+  <Expandable>
+    <ResponseField name="id" type="string" required/>
+    <ResponseField name="network" type="string" required/>
+    <ResponseField name="tokenContractAddress" type="string" required/>
+    <ResponseField name="tokenMetadata" type="" required>
+      <Expandable>
+        <ResponseField name="image" type="string" />
+        <ResponseField name="description" type="string" />
+        <ResponseField name="name" type="string" />
+        <ResponseField name="animation_url" type="string" />
+        <ResponseField name="properties" type="object" />
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="gatedContenct" type="array" required>
+      Includes `CUSTOM_FILE`, `FULL_RESOLUTION_IMAGE`
+    </ResponseField>
+    <ResponseField name="totalAvailable" type="number" required/>
+    <ResponseField name="totalSold" type="number" required/>
+    <ResponseField name="prices" type="array of objects" required>
+      <Expandable>
+        <ResponseField name="id" type="string" />
+        <ResponseField name="currency" type="string" />
+        <ResponseField name="price" type="string" />
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="auctions" type="array of objects" required>
+      <Expandable>
+        <ResponseField name="id" type="string" />
+        <ResponseField name="tokenId" type="string" />
+        <ResponseField name="auctionContractId" type="string" />
+        <ResponseField name="startsAt" type="date-time" />
+        <ResponseField name="endsAt" type="date-time" />
+        <ResponseField name="status" type="string" />
+        <ResponseField name="info" type="object">
+          <Expandable>
+            <ResponseField name="id" type="string" />
+            <ResponseField name="tokenMetadata" type="object">
+              <Expandable>
+                <ResponseField name="image" type="string" />
+                <ResponseField name="description" type="string" />
+                <ResponseField name="name" type="string" />
+                <ResponseField name="animation_url" type="string" />
+                <ResponseField name="properties" type="object" />
+              </Expandable>
+            </ResponseField>
+          </Expandable>
         </ResponseField>
-
-        <ResponseField name="auctions" type="array of objects" required>
-
-            <Expandable title ="show objects" >
-
-                <ResponseField name="id" type="string" />
-
-            </Expandable>
-
+        <ResponseField name="bids" type="array of objects">
+          <Expandable>
+            <ResponseField name="id" type="string" />
+            <ResponseField name="createdAt" type="date-time" />
+            <ResponseField name="auctionId" type="string" />
+            <ResponseField name="currency" type="string" />
+            <ResponseField name="amount" type="string" />
+            <ResponseField name="username" type="string" />
+          </Expandable>
         </ResponseField>
-
-        <ResponseField name="createdAt" type="date-time" required/>
-        <ResponseField name="liveAt" type="date-time" required/>
-        <ResponseField name="previewAt" type="date-time" required/>
-        <ResponseField name="salesEndAt" type="date-time" required/>
-        <ResponseField name="username" type="string" required/>
-        <ResponseField name="purchaseLink" type="string" required/>
-
-        <ResponseField name="saleType" type="string" required>
-        `EDITION` `LIMITED_EDITION` `OPEN_EDITION` `AUCTION` `OFF_CHAIN_AUCTION` `ON_CHAIN_AUCTION`
-        </ResponseField>
-
-    </Expandable>
-
+        <ResponseField name="automaticSettlement" type="boolean" />
+        <ResponseField name="ended" type="boolean" />
+        <ResponseField name="minBid" type="string" />
+        <ResponseField name="currency" type="string" />
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="createdAt" type="date-time" required/>
+    <ResponseField name="liveAt" type="date-time" required/>
+    <ResponseField name="previewAt" type="date-time" required/>
+    <ResponseField name="salesEndAt" type="date-time" required/>
+    <ResponseField name="username" type="string" required/>
+    <ResponseField name="purchaseLink" type="string" required/>
+    <ResponseField name="saleType" type="string" required>
+      One of `EDITION`, `LIMITED_EDITION`, `OPEN_EDITION`, `AUCTION`, `OFF_CHAIN_AUCTION`, `ON_CHAIN_AUCTION`
+    </ResponseField>
+    <ResponseField name="isGated" type="boolean" required />
+  </Expandable>
 </ParamField>
 
 <ParamField body= "error" type="object" required >
-  
-    <Expandable title ="show objects" >
-
-        <ResponseField name="message" type="string" />
-
-    </Expandable>
-
+  <Expandable>
+    <ResponseField name="message" type="string" />
+  </Expandable>
 </ParamField>
+
+<ResponseExample>
+``` json Sample Response
+{
+  "products": [
+    {
+      "id": "645ef367-a530-416a-81fe-6738dca54866",
+      "network": "mainnet",
+      "tokenContractAddress": "0x7a44228e46cdd37a85c0b07c4043b86c11e8c315",
+      "tokenMetadata": {
+        "image": "https://cdn.bitskistatic.com/tokens-raw/90419700-e0fd-4e06-8901-8b73de32bcde/f58d097b-72cd-4d0b-bbdf-96cffe6dce4f.png",
+        "description": "The King | Petty Blue Bust commemorates NASCAR's all time leader in wins and championships, Richard Petty.\n\nThis collectible is a limited edition 1-of-1 NFT featuring a bust of The King completed in an iconic “Petty Blue” finish. The bust showcases Petty in his signature sunglasses and cowboy hat, made to capture the essence of NASCAR's most recognizable face.\n\nThe winner of the 1-of-1 Petty Blue Bust will receive 2 separate experiences, listed below: \n\nRichard Petty Randleman Experience: Winner will have the opportunity to see the birthplace of Richard Petty. The experience includes a tour of both the Museum and Richard Petty’s Garage with Richard Petty as guide, as well as a ride along in one of Richard Petty’s Historic Cars with Richard driving on the Randleman Roads.  \n\nRace Day at the Track with Richard Petty: Winner will receive credentials to the track, a photo with Richard, and will have the chance to hang in the garage with Richard Petty. \n\nOfficially Licensed NASCAR Product.\n\nPayment for the  Petty Blue Bust Auction can be made via credit card or manually settled in ETH or BTC. The 1/1 NFT will be minted by Candy on Palm and delivered into the winner’s Candy Collection. Must have a Candy Digital account to receive the auction prize.\n\nPlease note, if a bid is placed in the final 5 minutes of the auction, the timer will extend an additional 5 minutes..\n\nSee Terms and Conditions: https://bit.ly/3odqRtT \n",
+        "name": "The King | Petty Blue Bust",
+        "animation_url": "https://cdn.bitskistatic.com/tokens-raw/90419700-e0fd-4e06-8901-8b73de32bcde/29bd5cc4-55b0-41ef-8d76-158124a78827.mp4",
+        "properties": {
+          "Nascar": "The King | Petty Blue Bust"
+        }
+      },
+      "gatedContent": [],
+      "totalAvailable": 1,
+      "totalSold": 1,
+      "prices": [],
+      "auctions": [
+        {
+          "id": "c4bf9dc3-9ea0-41b4-a192-24bcab89eca6",
+          "tokenId": "40eff03d-57eb-42c4-97c3-aef04e5c9f22",
+          "auctionContractId": null,
+          "startsAt": "2022-07-19T16:00:00Z",
+          "endsAt": "2022-07-26T23:00:00Z",
+          "status": "OFF_CHAIN",
+          "info": {
+            "id": "c4bf9dc3-9ea0-41b4-a192-24bcab89eca6",
+            "tokenMetadata": {
+              "image": "https://cdn.bitskistatic.com/tokens-raw/90419700-e0fd-4e06-8901-8b73de32bcde/f58d097b-72cd-4d0b-bbdf-96cffe6dce4f.png",
+              "description": "The King | Petty Blue Bust commemorates NASCAR's all time leader in wins and championships, Richard Petty.\n\nThis collectible is a limited edition 1-of-1 NFT featuring a bust of The King completed in an iconic “Petty Blue” finish. The bust showcases Petty in his signature sunglasses and cowboy hat, made to capture the essence of NASCAR's most recognizable face.\n\nThe winner of the 1-of-1 Petty Blue Bust will receive 2 separate experiences, listed below: \n\nRichard Petty Randleman Experience: Winner will have the opportunity to see the birthplace of Richard Petty. The experience includes a tour of both the Museum and Richard Petty’s Garage with Richard Petty as guide, as well as a ride along in one of Richard Petty’s Historic Cars with Richard driving on the Randleman Roads.  \n\nRace Day at the Track with Richard Petty: Winner will receive credentials to the track, a photo with Richard, and will have the chance to hang in the garage with Richard Petty. \n\nOfficially Licensed NASCAR Product.\n\nPayment for the  Petty Blue Bust Auction can be made via credit card or manually settled in ETH or BTC. The 1/1 NFT will be minted by Candy on Palm and delivered into the winner’s Candy Collection. Must have a Candy Digital account to receive the auction prize.\n\nPlease note, if a bid is placed in the final 5 minutes of the auction, the timer will extend an additional 5 minutes..\n\nSee Terms and Conditions: https://bit.ly/3odqRtT \n",
+              "name": "The King | Petty Blue Bust #1/1",
+              "animation_url": "https://cdn.bitskistatic.com/tokens-raw/90419700-e0fd-4e06-8901-8b73de32bcde/29bd5cc4-55b0-41ef-8d76-158124a78827.mp4",
+              "properties": {
+                "Nascar": "The King | Petty Blue Bust",
+                "edition": "1/1"
+              }
+            },
+            "bids": [
+              {
+                "id": "00f79e4d-875b-4d29-b6f4-50a46303eaf4",
+                "createdAt": "2022-07-19T16:07:14.014833Z",
+                "auctionId": "c4bf9dc3-9ea0-41b4-a192-24bcab89eca6",
+                "currency": "USD",
+                "amount": "500",
+                "username": "Fireball3553"
+              }
+            ],
+            "automaticSettlement": false,
+            "ended": true,
+            "minBid": "50",
+            "currency": "USD"
+          }
+        }
+      ],
+      "createdAt": "2022-07-07T19:21:36.164652Z",
+      "liveAt": "2022-07-19T16:00:00Z",
+      "previewAt": null,
+      "salesEndAt": "2022-07-26T23:00:00Z",
+      "username": "Candy",
+      "purchaseLink": "https://www.bitski.com/Candy/products/645ef367-a530-416a-81fe-6738dca54866",
+      "saleType": "OFF_CHAIN_AUCTION",
+      "isGated": false
+    }
+  ]
+}
+```
+</ResponseExample>
