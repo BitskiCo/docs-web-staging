@@ -1,0 +1,41 @@
+---
+title: "Miscellaneous NFT APIs"
+---
+
+### Raffles
+
+Create and manage raffles for chances to win tokens. Raffles can be created by delaying droplink minting and minting once a winner has been selected.
+
+``` json
+{
+  "tokenTemplates": [
+    {
+      "id": "056f5115-0195-4f52-886a-a13c44a8dce8",
+      "contractId": "223c90f1-c6e0-4111-a51e-0fd454251f2a",
+      "image": "https://cdn.bitskistatic.com/ee30.jpg",
+      "description": "We are really fun",
+      "name": "Droplink Example",
+      "animationUrl": null,
+      "defaultMetadata": {},
+      "gatedContent": [],
+      "totalTokens": 1000,
+      "maxTokens": null,
+      "prices": [],
+      "published": true,
+      "liveAt": "2019-06-18T23:00:00Z",
+      "previewAt": null,
+      "salesEndAt": "2027-06-18T23:41:32.327Z",
+      "namingTemplate": "DEFAULT",
+      "payouts": null,
+      "delayMinting": false,
+      "isDropLink": true
+    }
+  ]
+}
+```
+
+### Unlockable Content
+Manage unlockable content such as full resolution images, additional downloads, or other token-gated content.
+
+### Token Minting
+Mint tokens programmatically using Bitski nonce and gas management.

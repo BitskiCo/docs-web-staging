@@ -1,0 +1,29 @@
+---
+title: "GET /v1/token-gates"
+---
+
+Limit access to web pages or other experiences to users who control a specific token.
+
+```json
+{
+  "tokenGates": [
+    {
+      "id": "156f5115-0195-4f52-886a-a13c44a8dce9",
+      "name": "Check Moonbird Ownership",
+      "description": "You must have a Moonbird to continue",
+      "image": "https://cdn.bitskistatic.com/1e30.jpg",
+      "isActive": true,
+      "isPublished": true,
+      "created_at": "2019-06-18T23:00:00Z",
+      "filters": [
+        {
+          "name": "Moonbird",
+          "contractId": "223c90f1-c6e0-4111-a51e-0fd454251f2a",
+          "tokenIds": null,
+          "attributes": null
+        }
+      ]
+    }
+  ]
+}
+```

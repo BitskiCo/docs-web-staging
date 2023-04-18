@@ -1,0 +1,32 @@
+---
+title: "GET /v2/tokens"
+description: "GET /v2/tokens/{coinType}/{chainId}{contractAddress}/{tokenId}"
+---
+
+Get metadata about a given token, including floor prices, spam scores, and cached image and video assets. 
+
+``` json
+{
+  "token": {
+    "coinType": 60,
+    "chainId": 1,
+    "contractAddress": "0xa51cee4dd9a4e254dd5b8923024de5aab050391d",
+    "id": "0x38f",
+    "metadata": {
+      "name": "Leisurist #911",
+      "image": "https://cdn.simplehash.com/assets/0cc8233eec41c994fe4cdf0de3e850b389ce136bc783a2acd456322a966c1a51.jpg",
+      "description": "Welcome to Grand Leisure’s Bespoke Leisurist Collection. An exclusive NFT offering from the Poolsuite Internet Leisure Corporation, where every one of the ten thousand unique Leisurists has their own story to tell. From importers of artisanal handblown margarita glasses to salty but lovable seaplane captains of the sky (and sea), your Leisurist awaits. So grab a chilled bottle of Lambrusco and climb aboard motor yacht NICOLETTA as we chart a course to discover what’s possible in leisure online and atop the high seas of The Web III.",
+      "externalUrl": "https://grandleisure.org/",
+      "marketplaceUrl": "https://opensea.io/assets/ethereum/0xa51cee4dd9a4e254dd5b8923024de5aab050391d/911",
+      "attributes": [
+        {
+          "traitType": "Location",
+          "value": "Amalfi Sunset"
+        }
+        ...
+      ],
+    }
+  }
+}
+```
+

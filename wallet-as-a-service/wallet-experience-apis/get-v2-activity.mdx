@@ -1,0 +1,80 @@
+---
+title: "GET /v2/activity"
+---
+
+See full parsed history for all actions taken on-chain. Includes ENS resolution and multi-effect activity details for complex activity types.
+
+``` json
+{
+  "activities":[
+    {
+      "associatedAddresses": [
+        "0x0000000000000000000000000000000000000000",
+        "0xa6d0eea3afab2696a840731537874e058bc8049f",
+        "0xe5d16617c2d5405a6e149bbb57ef7d4a87e49b5f",
+        "0x904369861d728d6715fe1cde077758296054e54b",
+        "0x00000000006c3852cbef3e08e8df289169ede581"
+      ],
+      "timestamp": "2023-02-22T02:48:23Z",
+      "coinType": 60,
+      "chainId": 1,
+      "transaction": {
+        "hash": "0x213be412bad7602057985784c44f99f68c4f729b011549d64f3ebbc91335fccf",
+        "blockNumber": 16681127,
+        "value": "0x3c6568f12e8000",
+        "status": 1,
+        "fromAddress": "0x904369861d728d6715fe1cde077758296054e54b",
+        "toAddress": "0x00000000006c3852cbef3e08e8df289169ede581",
+        "gasUsed": "0x2b5fc",
+        "effectiveGasPrice": "0x10232542e4cca4"
+      },
+      "events": [
+        {
+          "type": "TOKEN_SALE",
+          "seller": "0xe5d16617c2d5405a6e149bbb57ef7d4a87e49b5f",
+          "buyer": "0x904369861d728d6715fe1cde077758296054e54b",
+          "contractAddress": "0xa6d0eea3afab2696a840731537874e058bc8049f",
+          "tokenId": "0xa50",
+          "amount": "1",
+          "purchaseType": "ACCEPT_OFFER",
+          "paymentCurrency": "0x0000000000000000000000000000000000000000",
+          "paymentAmount": "17000000000000000",
+          "platform": "0x00000000006c3852cbef3e08e8df289169ede581",
+          "logIndex": 246,
+          "creatorFee": null,
+          "platformFee": null
+        },
+        {
+          "type": "TOKEN_TRANSFER",
+          "fromAddress": "0xe5d16617c2d5405a6e149bbb57ef7d4a87e49b5f",
+          "toAddress": "0x904369861d728d6715fe1cde077758296054e54b",
+          "contractAddress": "0xa6d0eea3afab2696a840731537874e058bc8049f",
+          "tokenId": "0xa50",
+          "amount": "1",
+          "logIndex": 248,
+          "kind": "NFT"
+        },
+        {
+          "type": "TOKEN_APPROVAL",
+          "owner": "0xe5d16617c2d5405a6e149bbb57ef7d4a87e49b5f",
+          "spender": "0x0000000000000000000000000000000000000000",
+          "contractAddress": "0xa6d0eea3afab2696a840731537874e058bc8049f",
+          "tokenId": "0xa50",
+          "approvalType": "APPROVAL_FOR_ALL",
+          "allowance": "0x1",
+          "logIndex": 247,
+          "priority": 100
+        },
+        {
+          "type": "CONTRACT_INTERACTION",
+          "contractAddress": "0x00000000006c3852cbef3e08e8df289169ede581",
+          "functionName": null,
+          "functionArgs": null,
+          "status": "0x1"
+        }
+      ]
+    }
+    ...
+  ]
+}
+```

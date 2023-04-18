@@ -1,0 +1,62 @@
+---
+title: "GET /v2/transactions"
+description: "GET /v1/transactions/{transactionId}"
+---
+
+Optionally prompt users for approval when signing. Transaction approval screen simulates transaction effects, parses complex transaction results, and displays content in human-readable terms.
+
+```json
+{
+  "transaction": {
+    "activity": {
+      "additionalEvents": [],
+      "primaryEvent": {
+        "details": {
+          "amount": "10000000000000",
+          "blockNumber": 0,
+          "from": "0xf1006a889955d8be4a3ba50c5fca04f593d1df20",
+          "kind": "NATIVE",
+          "logIndex": null,
+          "to": "0xb9b7d3d6317d987548919641c8bf1f539da275fc",
+          "token": {
+            "chainId": 1,
+            "coinType": 60,
+            "collection": {
+              "image": "https://cdn.bitskistatic.com/images/icons/activity-icons/icon-ethereum-square-3e5ae4354e4a324bc7cb981c28f6752e176af01f75dee10d4e37afe5073e438f.png",
+              "isEtherscanVerified": true,
+              "name": "Ethereum",
+              "updatedAt": "2023-03-22T15:46:40"
+            },
+            "contractAddress": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+            "decimals": 18,
+            "symbol": "ETH"
+          },
+          "transactionHash": "0x0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "eventType": "TOKEN_TRANSFER"
+      }
+    },
+    "clientId": "5bc0d0c2-cd6a-44a6-886b-f3f111008596",
+    "consentStatus": "INCOMPLETE",
+    "context": {
+      "chainId": 1,
+      "origin": "https://www.bitski.com"
+    },
+    "contractInfo": {
+      "isContract": false,
+      "isEtherscanVerified": true,
+      "isOpenseaVerified": false
+    },
+    "id": "97fcb5be-388e-4266-a0b1-db431f666019",
+    "kind": "ETH_SEND_TRANSACTION",
+    "payload": {
+      "from": "0xf1006a889955d8be4a3ba50c5fca04f593d1df21",
+      "to": "0xb9b7d3d6317d987548919641c8bf1f539da275f1",
+      "type": 2,
+      "value": "0x09184e72a000"
+    },
+    "submitterId": "22ac9c81-1c6a-4818-a28b-6c97bd644e41",
+    "warnings": []
+  }
+}
+```

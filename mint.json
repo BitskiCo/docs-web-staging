@@ -54,6 +54,59 @@
         "wallet-as-a-service/errors",
         "wallet-as-a-service/pagination",
         {
+          "group": "Wallet Creation APIs",
+          "pages": [
+            "wallet-as-a-service/wallet-creation-apis/wallet-creation-flow",
+            {
+              "group": "",
+              "pages": [
+              ]
+            },
+            {
+              "group": "Balances API",
+              "pages": [
+                "wallet-as-a-service/wallet-experience-apis/balances-api/get-balances"
+              ]
+            },
+            {
+              "group": "Notifications API",
+              "pages": [
+                "wallet-as-a-service/wallet-experience-apis/notifications-api/notifications-api"
+              ]
+            },
+            {
+              "group": "Portfolio API",
+              "pages": [
+                "wallet-as-a-service/wallet-experience-apis/portfolio-api/portfolio-api"
+              ]
+            },
+            {
+              "group": "Signing API",
+              "pages": [
+                "wallet-as-a-service/wallet-experience-apis/signing-api/signing-api"
+              ]
+            },
+            {
+              "group": "Token Details API",
+              "pages": [
+                "wallet-as-a-service/wallet-experience-apis/token-details-api/get-contract-metadata",
+                "wallet-as-a-service/wallet-experience-apis/token-details-api/get-metadata",
+                "wallet-as-a-service/wallet-experience-apis/token-details-api/get-owners",
+                "wallet-as-a-service/wallet-experience-apis/token-details-api/get-token-metadata",
+                "wallet-as-a-service/wallet-experience-apis/token-details-api/update-metadata"
+              ]
+            },
+              {
+              "group": "User API",
+              "pages": [
+                "wallet-as-a-service/wallet-experience-apis/user-api/get-a-public-profile"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+        {
           "group": "Wallet Experience APIs",
           "pages": [
             {
